@@ -32,10 +32,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ButtonEntrar = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxEmail = new System.Windows.Forms.TextBox();
+            this.textBoxSenha = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelCriart
@@ -73,30 +75,31 @@
             this.ButtonEntrar.TabIndex = 4;
             this.ButtonEntrar.Text = "Entrar";
             this.ButtonEntrar.UseVisualStyleBackColor = false;
+            this.ButtonEntrar.Click += new System.EventHandler(this.ButtonEntrar_Click);
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(268, 252);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(95, 20);
+            this.checkBox1.Size = new System.Drawing.Size(94, 20);
             this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "checkBox1";
+            this.checkBox1.Text = "Lembre-se";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // textBoxEmail
             // 
-            this.textBox1.Location = new System.Drawing.Point(268, 162);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(240, 22);
-            this.textBox1.TabIndex = 6;
+            this.textBoxEmail.Location = new System.Drawing.Point(268, 154);
+            this.textBoxEmail.Name = "textBoxEmail";
+            this.textBoxEmail.Size = new System.Drawing.Size(240, 22);
+            this.textBoxEmail.TabIndex = 6;
             // 
-            // textBox2
+            // textBoxSenha
             // 
-            this.textBox2.Location = new System.Drawing.Point(268, 212);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(240, 22);
-            this.textBox2.TabIndex = 7;
+            this.textBoxSenha.Location = new System.Drawing.Point(268, 206);
+            this.textBoxSenha.Name = "textBoxSenha";
+            this.textBoxSenha.Size = new System.Drawing.Size(240, 22);
+            this.textBoxSenha.TabIndex = 7;
             // 
             // linkLabel1
             // 
@@ -117,16 +120,36 @@
             this.label2.TabIndex = 9;
             this.label2.Text = "Não tem uma conta";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(268, 132);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 16);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Email";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(268, 187);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 16);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Senha";
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(782, 453);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.linkLabel1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxSenha);
+            this.Controls.Add(this.textBoxEmail);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.ButtonEntrar);
             this.Controls.Add(this.label1);
@@ -145,10 +168,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ButtonEntrar;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBoxEmail;
+        private System.Windows.Forms.TextBox textBoxSenha;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }
 
