@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="CriArtBLL/CriArtBLL.csproj" />
+  <Project Path="CriArtDAL/CriArtDAL.csproj" />
+  <Project Path="CriArtUI/CriArtUI.csproj" />
+</Solution>
