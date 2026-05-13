@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="CriArtBLL/CriArtBLL.csproj" />
-  <Project Path="CriArtDAL/CriArtDAL.csproj" />
-  <Project Path="CriArtUI/CriArtUI.csproj" />
+  <Project Path="CriArtBLL/CriArtBLL.csproj" Id="959f88fc-7a41-4be7-b16d-f5262b4e19f0" />
+  <Project Path="CriArtDAL/CriArtDAL.csproj" Id="3ccc1b7e-6271-45ce-b681-f4e93290f3bd" />
+  <Project Path="CriArtUI/CriArtUI.csproj" Id="d302cd8a-7e56-4306-b7c2-b9bccaa12934" />
 </Solution>
