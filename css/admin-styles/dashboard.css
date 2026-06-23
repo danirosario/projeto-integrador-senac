@@ -1,0 +1,66 @@
+/* CARDS DE ESTATÍSTICAS */
+.container-estatisticas {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 25px 20px;
+    border-radius: 8px;
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(28, 58, 90, 0.08);
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--terracotta-orange);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.95rem;
+    color: #627d98;
+    font-weight: 600;
+}
+
+/* SEÇÃO DE GRÁFICOS */
+.charts-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+}
+
+.chart-card {
+    background-color: var(--bg-card);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+.chart-card h3 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: var(--deep-navy);
+}
+
+.chart-placeholder img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+    background-color: var(--warm-cream);
+}

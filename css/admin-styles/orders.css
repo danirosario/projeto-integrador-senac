@@ -1,0 +1,30 @@
+.orders-section {
+    background-color: var(--light-navy);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 4px rgba(28, 58, 90, 0.1);
+}
+
+.orders-section h3{
+    color: var(--deep-navy);
+    margin-bottom: 20px;
+}
+
+.orders-info {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 2px solid var(--text-dark);
+}
+
+.order-item {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}

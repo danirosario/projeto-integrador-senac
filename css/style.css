@@ -1,0 +1,129 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+
+:root {
+    --deep-navy: #1C3A5A;
+    --terracotta-orange: #E2725B;
+    --sage-green: #9CAF88;
+    --warm-cream: #F5F0E6;
+
+    --bg-main: var(--warm-cream);
+    --bg-sidebar: var(--deep-navy);
+    --bg-card: #ffffff;
+    --text-dark: #2c3e50;
+    --text-light: #f8f9fa;
+    --border-color: #e8e4da;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+}
+
+/* SIDEBAR */
+.sidebar {
+    background-color: var(--bg-sidebar);
+    color: var(--text-light);
+    padding: 30px 20px;
+    box-shadow: 2px 0 10px rgba(28, 58, 90, 0.1);
+}
+
+.sidebar .logo h2 {
+    color: var(--text-light);
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.sidebar .logo {
+    margin-bottom: 40px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+}
+
+.sidebar nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar nav a {
+    color: #cbd5e1;
+    display: block;
+    padding: 12px 15px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+    color: var(--text-light);
+    background-color: var(--terracotta-orange);
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(226, 114, 91, 0.2);
+}
+
+/* CONTEÚDO PRINCIPAL */
+main {
+    padding: 40px;
+    flex: 1;
+}
+
+h1 {
+    font-size: 2rem;
+    color: var(--deep-navy);
+    margin-bottom: 10px;
+}
+
+.welcome-text {
+    color: #616e7c;
+    margin-bottom: 30px;
+}
+
+/* ESTRUTURA MAIN */
+.main-container {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+}
+
+.content-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* FOOTER */
+footer {
+    background-color: var(--bg-card);
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #829ab1;
+    border-top: 1px solid var(--border-color);
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        padding: 20px;
+    }
+
+    main {
+        padding: 20px;
+    }
+
+    .charts-section {
+        grid-template-columns: 1fr;
+    }
+}

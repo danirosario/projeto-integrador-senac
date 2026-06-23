@@ -1,0 +1,50 @@
+.stock-section {
+    background-color: var(--light-navy);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 4px rgba(28, 58, 90, 0.1);
+}
+
+.stock-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.stock-table th,
+.stock-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.stock-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.stock-actions button {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-restock {
+    background-color: green;
+    color: #fff;
+}
+
+.btn-restock:hover {
+    background-color: #22c55e;
+}
+
+.btn-withdraw {
+    background-color: red;
+    color: #fff;
+}
+
+.btn-withdraw:hover {
+    background-color: #ef4444;
+}

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/admin-styles/dashboard.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>CriArty - Dashboard</title>
+  </head>
+  <body>
+    <div class="main-container">
+      <!-- SIDEBAR -->
+
+      <aside class="sidebar">
+        <div class="logo">
+          <img src="../images/logo.png" alt="Logo CriArty" />
+          <!-- <h2>CriArty</h2> -->
+        </div>
+        <nav>
+          <ul>
+            <li><a href="dashboard.html" class="active">Dashboard</a></li>
+            <li><a href="products.html">Produtos</a></li>
+            <li><a href="orders.html">Pedidos</a></li>
+            <li><a href="stock.html">Estoque</a></li>
+            <li><a href="reports.html">Relatórios</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- CONTENT AREA --> 
+      <div class="content-area">
+        <main>
+          <p class="welcome-text">
+            Bem-vindo ao painel de administração do CriArty! Aqui você pode
+            gerenciar seus produtos, pedidos e estoque.
+          </p>
+
+          <!-- ESTATÍSTICAS RÁPIDAS -->
+          <section class="stats-section">
+            <div class="container-estatisticas">
+              <div class="stat-card">
+                <span class="stat-number">100</span>
+                <p class="stat-label">Produtos</p>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">50</span>
+                <p class="stat-label">Pedidos</p>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">20</span>
+                <p class="stat-label">Itens em Estoque</p>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">R$ 200</span>
+                <p class="stat-label">Receita Total</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- GRÁFICOS E RELATÓRIOS -->
+          <section class="charts-section">
+            <div class="chart-card">
+              <h3>Últimos Pedidos</h3>
+              <div class="chart-placeholder">
+                <img
+                  src="../images/grafico-vendas.png"
+                  alt="Gráfico de Vendas"
+                />
+              </div>
+            </div>
+            <div class="chart-card">
+              <h3>Controle de Estoque</h3>
+              <div class="chart-placeholder">
+                <img
+                  src="../images/grafico-estoque.png"
+                  alt="Gráfico de Estoque"
+                />
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <!-- FOOTER -->
+        <footer>
+          <p>&copy; 2026 CriArty. Todos os direitos reservados.</p>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
