@@ -64,3 +64,13 @@
     border-radius: 6px;
     background-color: var(--warm-cream);
 }
+
+.category-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    font-size: 1rem;
+    background-color: var(--bg-card);
+    color: var(--deep-navy);
+}
