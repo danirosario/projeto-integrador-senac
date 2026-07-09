@@ -38,39 +38,32 @@
 }
 
 /* SEÇÃO DE GRÁFICOS */
-.charts-section {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 20px;
+
+.dashboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.chart-card {
-    background-color: var(--bg-card);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+.dashboard-list-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
 }
 
-.chart-card h3 {
-    margin-bottom: 15px;
-    font-size: 1.1rem;
-    color: var(--deep-navy);
+.item-title {
+  font-weight: 600;
 }
 
-.chart-placeholder img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 6px;
-    background-color: var(--warm-cream);
+.item-subtext {
+  font-size: 0.85rem;
+  color: #666;
 }
 
-.category-select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
-    font-size: 1rem;
-    background-color: var(--bg-card);
-    color: var(--deep-navy);
+.dashboard-list-empty {
+  color: #999;
+  font-style: italic;
+  padding: 10px 0;
 }
+

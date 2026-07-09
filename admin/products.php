@@ -86,8 +86,8 @@ $produtos = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
                                 <select id="category" name="category" required>
                                     <option value="">Selecione...</option>
                                     <?php while ($cat = $categorias->fetch_assoc()): ?>
-                                    <option value="<?= $cat['idCategory'] ?>">
-                                        <?= htmlspecialchars($cat['Name']) ?>
+                                    <option value="<?php echo (int) $cat['idCategory'] ?>">
+                                        <?php echo htmlspecialchars($cat['Name']) ?>
                                     </option>
                                     <?php endwhile; ?>
                                 </select>
@@ -110,8 +110,7 @@ $produtos = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
 
                             <div class="form-group">
                                 <label for="stock">Quantidade em Estoque</label>
-                                <input type="number" id="stock" name="stock" placeholder="Quantidade em Estoque"
-                                    required />
+                                <input type="number" id="stock" name="stock" placeholder="Quantidade em Estoque" required />
                             </div>
 
                             <button type="submit">Adicionar Produto</button>
@@ -140,24 +139,25 @@ $produtos = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
                             <?php while ($p = $produtos->fetch_assoc()): ?>
                             <tr>
                                 <td>
-                                    <?= htmlspecialchars($p['Name']) ?>
+                                    <?php echo htmlspecialchars($p['Name']) ?>
                                 </td>
                                 <td>
-                                    <?= htmlspecialchars($p['CategoryName']) ?>
+                                    <?php echo htmlspecialchars($p['CategoryName']) ?>
                                 </td>
                                 <td>R$
-                                    <?= number_format($p['BasePrice'], 2, ',', '.') ?>
+                                    <?php echo number_format($p['BasePrice'], 2, ',', '.') ?>
                                 </td>
                                 <td>
-                                    <?= (int) $p['Stock'] ?>
+                                    <?php echo (int) $p['Stock'] ?>
                                 </td>
                                 <td>
-                                    <?= htmlspecialchars($p['Description']) ?>
+                                    <?php echo htmlspecialchars($p['Description']) ?>
                                 </td>
                                 <td>
                                     <div class="product-actions">
                                         <a href="edit_product.php?id=<?= $p['idProduct'] ?>" class="btn-edit">Editar</a>
-                                        <a href="delete_product.php?id=<?= $p['idProduct'] ?>" class="btn-delete" onclick="return confirm('Excluir este produto?')">Excluir</a>
+                                        <a href="delete_product.php?id=<?= $p['idProduct'] ?>" class="btn-delete" 
+                                            onclick="return confirm('Excluir este produto?')">Excluir</a>
                                     </div>
                                 </td>
                             </tr>
