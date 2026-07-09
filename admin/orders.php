@@ -1,3 +1,27 @@
+<?php 
+require_once("../conexao.php");
+
+// Total de pedidos
+$result = $conn->query("SELECT COUNT(*) AS total FROM `order`");
+$dadosTotal = $result->fetch_assoc(); // array associativo com o total de pedidos
+$totalPedidos = $dadosTotal['total']; // total de pedidos cadastrados
+
+// faturamento total 
+$resultSoma = $conn->query("SELECT SUM(TotalAmount) AS totalValor FROM `order`");
+$dadosSoma = $resultSoma->fetch_assoc();
+
+// Armazena o valor total. O operador '?? 0' garante que, se o banco estiver vazio, o valor será 0.
+$faturamentoTotal = $dadosSoma['totalValor'] ?? 0;
+
+// BUSCAR PEDIDOS CADASTRADOS (para a tabela de listagem)
+// Faz um INNER JOIN entre a tabela `order` (o) e `customer` (c) para trazer o nome do cliente.
+// O resultado é ordenado pela data do pedido mais recente para o mais antigo (DESC).
+$pedidos = $conn->query("SELECT o.idOrder, o.OrderDate, o.Status, o.PaymentStatus, o.TotalAmount, c.Name AS CustomerName
+    FROM `order` o
+    JOIN customer c ON c.idCustomer = o.Customer_idCustomer
+    ORDER BY o.OrderDate DESC");
+?>
+
 <!doctype html>
 <html lang="pt-br">
 
@@ -21,11 +45,11 @@
 
             <nav>
                 <ul>
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="products.html" >Produtos</a></li>
-                    <li><a href="orders.html" class="active">Pedidos</a></li>
-                    <li><a href="stock.html">Estoque</a></li>
-                    <li><a href="reports.html">Relatórios</a></li>
+                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="products.php">Produtos</a></li>
+                    <li><a href="orders.php" class="active">Pedidos</a></li>
+                    <li><a href="stock.php">Estoque</a></li>
+                    <li><a href="reports.php">Relatórios</a></li>
                 </ul>
             </nav>
         </aside>
@@ -52,25 +76,32 @@
                     </div>
 
                     <ul>
-                        <li class="order-item">
-                            <span>#1</span>
-                            <span>Cliente</span>
-                            <span>1 item</span>
-                            <span>R$ 20,00</span>
-                            <span>Em andamento</span>
-                            <span>Pago</span>
-                            <span>01/01/2023</span>
-                        </li>
-
-                        <li class="order-item">
-                            <span>#2</span>
-                            <span>Cliente 2</span>
-                            <span>3 itens</span>
-                            <span>R$ 45,00</span>
-                            <span>Em andamento</span>
-                            <span>Pago</span>
-                            <span>02/01/2023</span>
-                        </li>
+                        <?php 
+                        // Verifica se a consulta retornou alguma linha do banco de dados
+                        if ($pedidos && $pedidos->num_rows > 0):
+                            
+                            // Inicia o loop 'while'. Enquanto houver registros no banco, ele continuará rodando
+                            // e jogando os dados do pedido atual dentro da variável $pedido.
+                            while($pedido = $pedidos->fetch_assoc()): 
+                        ?>
+                            <li class="order-item">
+                                <span>#  <?php echo $pedido["idOrder"]; ?>                                 </span>
+                                <span>   <?php echo htmlspecialchars($pedido["CustomerName"]); ?>          </span>
+                                <span>R$ <?php echo number_format($pedido["TotalAmount"], 2, ',', '.'); ?> </span> 
+                                <span>   <?php echo htmlspecialchars($pedido["Status"]); ?>                </span>
+                                <span>   <?php echo htmlspecialchars($pedido["PaymentStatus"]); ?>         </span>
+                                <span>   <?php echo date('d/m/Y H:i', strtotime($pedido["OrderDate"])); ?> </span>
+                            </li>
+                        <?php 
+                            endwhile;
+                        else: 
+                        ?>
+                            <li class="order-item">
+                                <span>Nenhum pedido encontrado.</span>
+                            </li>
+                        <?php 
+                        endif;
+                        ?>
                     </ul>
                 </section>
             </main>

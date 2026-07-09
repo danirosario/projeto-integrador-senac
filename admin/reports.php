@@ -20,11 +20,11 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="products.html">Produtos</a></li>
-                    <li><a href="orders.html">Pedidos</a></li>
-                    <li><a href="stock.html">Estoque</a></li>
-                    <li><a href="reports.html" class="active">Relatórios</a></li>
+                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="products.php">Produtos</a></li>
+                    <li><a href="orders.php">Pedidos</a></li>
+                    <li><a href="stock.php">Estoque</a></li>
+                    <li><a href="reports.php" class="active">Relatórios</a></li>
                 </ul>
             </nav>
         </aside>
