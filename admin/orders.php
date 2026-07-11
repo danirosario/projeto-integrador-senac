@@ -3,22 +3,22 @@ require_once("../conexao.php");
 
 // Total de pedidos
 $result = $conn->query("SELECT COUNT(*) AS total FROM `order`");
-$dadosTotal = $result->fetch_assoc(); // array associativo com o total de pedidos
-$totalPedidos = $dadosTotal['total']; // total de pedidos cadastrados
+$totalData = $result->fetch_assoc(); // array associativo com o total de pedidos
+$totalOrders = $totalData['total'];  // total de pedidos cadastrados
 
 // faturamento total 
-$resultSoma = $conn->query("SELECT SUM(TotalAmount) AS totalValor FROM `order`");
-$dadosSoma = $resultSoma->fetch_assoc();
+$resultSum = $conn->query("SELECT SUM(TotalAmount) AS totalValor FROM `order`");
+$sum = $resultSum->fetch_assoc();
 
 // Armazena o valor total. O operador '?? 0' garante que, se o banco estiver vazio, o valor será 0.
-$faturamentoTotal = $dadosSoma['totalValor'] ?? 0;
+$totalRevenue = $sum['totalValor'] ?? 0;
 
 // BUSCAR PEDIDOS CADASTRADOS (para a tabela de listagem)
 // Faz um INNER JOIN entre a tabela `order` (o) e `customer` (c) para trazer o nome do cliente.
 // O resultado é ordenado pela data do pedido mais recente para o mais antigo (DESC).
-$pedidos = $conn->query("SELECT o.idOrder, o.OrderDate, o.Status, o.PaymentStatus, o.TotalAmount, c.Name AS CustomerName
+$orders = $conn->query("SELECT o.idOrder, o.OrderDate, o.Status, o.PaymentStatus, o.TotalAmount, c.Name AS CustomerName
     FROM `order` o
-    JOIN customer c ON c.idCustomer = o.Customer_idCustomer
+    INNER JOIN customer c ON c.idCustomer = o.Customer_idCustomer
     ORDER BY o.OrderDate DESC");
 ?>
 
@@ -78,19 +78,19 @@ $pedidos = $conn->query("SELECT o.idOrder, o.OrderDate, o.Status, o.PaymentStatu
                     <ul>
                         <?php 
                         // Verifica se a consulta retornou alguma linha do banco de dados
-                        if ($pedidos && $pedidos->num_rows > 0):
+                        if ($orders && $orders->num_rows > 0):
                             
                             // Inicia o loop 'while'. Enquanto houver registros no banco, ele continuará rodando
                             // e jogando os dados do pedido atual dentro da variável $pedido.
-                            while($pedido = $pedidos->fetch_assoc()): 
+                            while($order = $orders->fetch_assoc()): 
                         ?>
                             <li class="order-item">
-                                <span>#  <?php echo $pedido["idOrder"]; ?>                                 </span>
-                                <span>   <?php echo htmlspecialchars($pedido["CustomerName"]); ?>          </span>
-                                <span>R$ <?php echo number_format($pedido["TotalAmount"], 2, ',', '.'); ?> </span> 
-                                <span>   <?php echo htmlspecialchars($pedido["Status"]); ?>                </span>
-                                <span>   <?php echo htmlspecialchars($pedido["PaymentStatus"]); ?>         </span>
-                                <span>   <?php echo date('d/m/Y H:i', strtotime($pedido["OrderDate"])); ?> </span>
+                                <span>#  <?php echo $order["idOrder"]; ?>                                 </span>
+                                <span>   <?php echo htmlspecialchars($order["CustomerName"]); ?>          </span>
+                                <span>R$ <?php echo number_format($order["TotalAmount"], 2, ',', '.'); ?> </span> 
+                                <span>   <?php echo htmlspecialchars($order["Status"]); ?>                </span>
+                                <span>   <?php echo htmlspecialchars($order["PaymentStatus"]); ?>         </span>
+                                <span>   <?php echo date('d/m/Y H:i', strtotime($order["OrderDate"])); ?> </span>
                             </li>
                         <?php 
                             endwhile;

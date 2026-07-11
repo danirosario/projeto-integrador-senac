@@ -39,6 +39,24 @@
 
 /* SEÇÃO DE GRÁFICOS */
 
+.charts-section {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.chart-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    margin-bottom: 30px;
+    width: 495px;
+    display: inline-block;
+}
+
 .dashboard-list {
   list-style: none;
   padding: 0;
@@ -66,4 +84,3 @@
   font-style: italic;
   padding: 10px 0;
 }
-

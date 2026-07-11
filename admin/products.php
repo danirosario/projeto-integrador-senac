@@ -3,7 +3,7 @@ require_once("../conexao.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_product') {
 
-    // --- Mapeamento: campo do formulário -> coluna do banco
+    // Mapeamento: campo do formulário -> coluna do banco
     $name        = trim($_POST['product-name']);   // -> product.Name
     $categoryId  = (int) $_POST['category'];       // -> product.Category_idCategory
     $description = trim($_POST['description']);    // -> product.Description
@@ -27,10 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 
 // BUSCAR CATEGORIAS 
-$categorias = $conn->query("SELECT idCategory, Name FROM category WHERE isActive = 1 ORDER BY Name");
+$categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive = 1 ORDER BY Name");
 
 // BUSCAR PRODUTOS CADASTRADOS (para a tabela de listagem)
-$produtos = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.Description, c.Name 
+$products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.Description, c.Name 
     AS CategoryName
     FROM product p
     JOIN category c ON c.idCategory = p.Category_idCategory
@@ -85,7 +85,7 @@ $produtos = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
                                 <label for="category">Categoria</label>
                                 <select id="category" name="category" required>
                                     <option value="">Selecione...</option>
-                                    <?php while ($cat = $categorias->fetch_assoc()): ?>
+                                    <?php while ($cat = $categories->fetch_assoc()): ?>
                                     <option value="<?php echo (int) $cat['idCategory'] ?>">
                                         <?php echo htmlspecialchars($cat['Name']) ?>
                                     </option>
@@ -136,7 +136,7 @@ $produtos = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while ($p = $produtos->fetch_assoc()): ?>
+                            <?php while ($p = $products->fetch_assoc()): ?>
                             <tr>
                                 <td>
                                     <?php echo htmlspecialchars($p['Name']) ?>

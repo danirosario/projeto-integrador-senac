@@ -3,31 +3,31 @@ require_once("../conexao.php");
 
 // Total de produtos ativos
 $result = $conn->query("SELECT COUNT(*) AS total FROM product WHERE isActive = 1");
-$totalProdutos = $result->fetch_assoc()['total'];
+$totalProducts = $result->fetch_assoc()['total'];
 
 // Total de pedidos
 $result = $conn->query("SELECT COUNT(*) AS total FROM `order`");
-$totalPedidos = $result->fetch_assoc()['total'];
+$totalOrders = $result->fetch_assoc()['total'];
 
 // Soma de todas as unidades em estoque
-$result = $conn->query("SELECT COALESCE(SUM(Stock), 0) AS total FROM product WHERE isActive = 1");
-$itensEstoque = $result->fetch_assoc()['total'];
+$result = $conn->query("SELECT SUM(Stock) AS total FROM product WHERE isActive = 1");
+$totalStock = $result->fetch_assoc()['total'];
 
-// Receita total (somando só pedidos pagos)
-$result = $conn->query("SELECT COALESCE(SUM(TotalAmount), 0) AS total FROM `order` WHERE PaymentStatus = 'pago'");
-$receitaTotal = $result->fetch_assoc()['total'];
+// Receita total 
+$result = $conn->query("SELECT SUM(TotalAmount) AS total FROM `order` WHERE PaymentStatus = 'pago'");
+$totalRevenue = $result->fetch_assoc()['total'];
 
 // Últimos 5 pedidos (mais recentes primeiro), com nome do cliente
-$ultimosPedidos = $conn->query("SELECT o.idOrder, o.OrderDate, o.TotalAmount, o.Status, c.Name 
+$recentOrders = $conn->query("SELECT o.idOrder, o.OrderDate, o.TotalAmount, o.Status, c.Name 
     AS CustomerName 
     FROM `order` o 
-    JOIN customer c ON c.idCustomer = o.Customer_idCustomer
+    INNER JOIN customer c ON c.idCustomer = o.Customer_idCustomer
     ORDER BY o.OrderDate DESC
     LIMIT 5
-");
+"); 
 
-// Produtos com estoque baixo (Stock <= MinStock), os mais críticos primeiro
-$estoqueBaixo = $conn->query("SELECT idProduct, Name, Stock, MinStock FROM product
+// Produtos com estoque baixo, os 5 produtos com menor quantidade em estoque, considerando apenas produtos ativos
+$lowStockProducts = $conn->query("SELECT idProduct, Name, Stock, MinStock FROM product
     WHERE isActive = 1 AND Stock <= MinStock
     ORDER BY Stock ASC LIMIT 5");
 ?>
@@ -74,19 +74,19 @@ $estoqueBaixo = $conn->query("SELECT idProduct, Name, Stock, MinStock FROM produ
         <section class="stats-section">
           <div class="container-estatisticas">
             <div class="stat-card">
-              <span class="stat-number"><?php echo (int) $totalProdutos; ?></span>
+              <span class="stat-number"><?php echo (int) $totalProducts; ?></span>
               <p class="stat-label">Produtos</p>
             </div>
             <div class="stat-card">
-              <span class="stat-number"><?php echo (int) $totalPedidos; ?></span>
+              <span class="stat-number"><?php echo (int) $totalOrders; ?></span>
               <p class="stat-label">Pedidos</p>
             </div>
             <div class="stat-card">
-              <span class="stat-number"><?php echo (int) $itensEstoque; ?></span>
+              <span class="stat-number"><?php echo (int) $totalStock; ?></span>
               <p class="stat-label">Itens em Estoque</p>
             </div>
             <div class="stat-card">
-              <span class="stat-number">R$ <?php echo number_format($receitaTotal, 2, ',', '.'); ?></span>
+              <span class="stat-number">R$ <?php echo number_format($totalRevenue, 2, ',', '.'); ?></span>
               <p class="stat-label">Receita Total</p>
             </div>
           </div>
@@ -97,17 +97,17 @@ $estoqueBaixo = $conn->query("SELECT idProduct, Name, Stock, MinStock FROM produ
           <div class="chart-card">
             <h3>Últimos Pedidos</h3>
             <ul class="dashboard-list">
-              <?php if ($ultimosPedidos->num_rows === 0): ?>
+              <?php if ($recentOrders->num_rows === 0): ?>
                 <li class="dashboard-list-empty">Nenhum pedido registrado ainda.</li>
               <?php else: ?>
-                <?php while ($pedido = $ultimosPedidos->fetch_assoc()): ?>
+                <?php while ($order = $recentOrders->fetch_assoc()): ?>
                   <li class="dashboard-list-item">
-                    <span class="item-title">#<?php echo $pedido['idOrder']; ?> -
-                      <?php echo htmlspecialchars($pedido['CustomerName']); ?></span>
+                    <span class="item-title">#<?php echo $order['idOrder']; ?> -
+                      <?php echo htmlspecialchars($order['CustomerName']); ?></span>
                     <span class="item-subtext">
-                      <?php echo date('d/m/Y', strtotime($pedido['OrderDate'])); ?>
-                      · R$ <?php echo number_format($pedido['TotalAmount'], 2, ',', '.'); ?>
-                      · <?php echo htmlspecialchars($pedido['Status']); ?>
+                      <?php echo date('d/m/Y', strtotime($order['OrderDate'])); ?>
+                      · R$ <?php echo number_format($order['TotalAmount'], 2, ',', '.'); ?>
+                      · <?php echo htmlspecialchars($order['Status']); ?>
                     </span>
                   </li>
                 <?php endwhile; ?>
@@ -117,15 +117,15 @@ $estoqueBaixo = $conn->query("SELECT idProduct, Name, Stock, MinStock FROM produ
           <div class="chart-card">
             <h3>Controle de Estoque</h3>
             <ul class="dashboard-list">
-              <?php if ($estoqueBaixo->num_rows === 0): ?>
+              <?php if ($lowStockProducts->num_rows === 0): ?>
                 <li class="dashboard-list-empty">Nenhum produto com estoque baixo.</li>
               <?php else: ?>
-                <?php while ($produto = $estoqueBaixo->fetch_assoc()): ?>
+                <?php while ($product = $lowStockProducts->fetch_assoc()): ?>
                   <li class="dashboard-list-item">
-                    <span class="item-title"><?php echo htmlspecialchars($produto['Name']); ?></span>
+                    <span class="item-title"><?php echo htmlspecialchars($product['Name']); ?></span>
                     <span class="item-subtext">
-                      <?php echo (int) $produto['Stock']; ?> em estoque
-                      (mínimo: <?php echo (int) $produto['MinStock']; ?>)
+                      <?php echo (int) $product['Stock']; ?> em estoque
+                      (mínimo: <?php echo (int) $product['MinStock']; ?>)
                     </span>
                   </li>
                 <?php endwhile; ?>

@@ -1,3 +1,28 @@
+<?php
+require_once('../conexao.php');
+
+// Total de pedidos do mês
+$result           = $conn->query("SELECT COUNT(*) AS total FROM `order` WHERE MONTH(OrderDate) = MONTH(CURRENT_DATE()) AND YEAR(OrderDate) = YEAR(CURRENT_DATE())");
+$totalData        = $result->fetch_assoc();
+$totalOrdersMonth = $totalData['total'] ?? 0;
+
+// Faturamento do mês
+$resultSum         = $conn->query("SELECT SUM(TotalAmount) AS totalValor FROM `order` WHERE MONTH(OrderDate) = MONTH(CURRENT_DATE()) AND YEAR(OrderDate) = YEAR(CURRENT_DATE())");
+$sumData           = $resultSum->fetch_assoc();
+$totalRevenueMonth = $sumData['totalValor'] ?? 0;
+
+// Produto com mais estoque
+$topStockQuery   = $conn->query("SELECT Name, Stock FROM product WHERE isActive = 1 ORDER BY Stock DESC LIMIT 5");
+$topProductData  = $topStockQuery->fetch_assoc();
+$topProductName  = $topProductData['Name'] ?? 'Nenhum produto';
+$topProductStock = $topProductData['Stock'] ?? 'Nenhum estoque';
+
+// Últimos 6 meses de faturamento
+$sixMonthsRevenue = $conn->query("SELECT DATE_FORMAT(OrderDate, '%Y-%m') AS Month, 
+                                SUM(TotalAmount) AS TotalRevenue FROM `order` WHERE OrderDate >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH) 
+                                GROUP BY Month ORDER BY Month DESC");
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -12,11 +37,9 @@
 <body>
     <div class="main-container">
         <!-- SIDEBAR -->
-
         <aside class="sidebar">
             <div class="logo">
                 <img src="../images/logo.png" alt="Logo CriArty" />
-                <!-- <h2>CriArty</h2> -->
             </div>
             <nav>
                 <ul>
@@ -37,32 +60,51 @@
                 <div class="reports-grid">
                     <!-- Bloco 1: Pedidos -->
                     <div class="container-reports">
-                        <span class="stat-number">100</span>
+                        <span class="stat-number"><?php echo $totalOrdersMonth; ?></span>
                         <p class="stat-label">Pedidos do mês</p>
                     </div>
 
                     <!-- Bloco 2: Faturamento -->
                     <div class="container-reports">
-                        <span class="stat-number">R$ 49,85</span>
-                        <p class="stat-label">Faturamento</p>
+                        <span class="stat-number">R$
+                            <?php echo number_format($totalRevenueMonth, 2, ',', '.'); ?></span>
+                        <p class="stat-label">Faturamento do mês</p>
                     </div>
                 </div>
 
                 <div class="reports-grid">
                     <!-- Bloco 3: Estoque -->
                     <div class="container-reports">
-                        <h3 class="stat-label-top">Produtos com mais estoque</h3>
-
+                        <h3 class="stat-label-top">Produto com mais estoque</h3>
                         <div class="product-info-row">
-                            <p class="stat-product-name">Caneca Personalizada</p>
-                            <span class="stat-subtext">100 em estoque</span>
+                            <p class="stat-product-name"><?php echo htmlspecialchars($topProductName); ?></p>
+                            <span class="stat-subtext">  <?php echo $topProductStock; ?> em estoque</span>
                         </div>
                     </div>
 
                     <!-- Bloco 4: Histórico -->
                     <div class="container-reports">
                         <h3 class="stat-label">Últimos 6 meses</h3>
-
+                        <ul class="revenue-history-list">
+                            <?php
+                            if ($sixMonthsRevenue && $sixMonthsRevenue->num_rows > 0) {
+                                while ($row = $sixMonthsRevenue->fetch_assoc()) {
+                                    // Formatar o mês para BR (MM/YYYY)
+                                    $dateObj = DateTime::createFromFormat('Y-m', $row['Month']);
+                                    $formattedMonth = $dateObj ? $dateObj->format('m/Y') : $row['Month'];
+                                    ?>
+                                    <li class="history-row">
+                                        <span class="month-label"><?php echo $formattedMonth; ?></span>
+                                        <span class="month-revenue">R$
+                                            <?php echo number_format($row['TotalRevenue'], 2, ',', '.'); ?></span>
+                                    </li>
+                                <?php
+                                }
+                            } else {
+                                echo "<p>Nenhum faturamento registrado.</p>";
+                            }
+                            ?>
+                        </ul>
                     </div>
                 </div>
             </main>
@@ -71,7 +113,6 @@
             <footer>
                 <p>&copy; 2026 CriArty. Todos os direitos reservados.</p>
             </footer>
-
         </div>
     </div>
 </body>
