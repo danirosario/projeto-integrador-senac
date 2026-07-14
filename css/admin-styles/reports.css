@@ -40,22 +40,44 @@
     margin-bottom: 12px;
 }
 
+.product-item {
+    display: block;
+    width: 100%; 
+    margin: 0 auto;
+}
+
 .product-info-row {
-    display: flex;
+    display: flex !important;
+    flex-direction: column !important; 
     justify-content: center;
     align-items: center;   
-    gap: 10px;         
+    gap: 15px;         
 }
 
 .stat-product-name {
     font-size: 16px;
     font-weight: 600;
     color: #2b2d42;
-    margin: 0;   
+    margin: 0 0 4px 0;   
 }
 
 .stat-subtext {
     font-size: 13px;
     color: #2a9d8f; 
     font-weight: 600;
+    display: inline-block;
+}
+
+/* Estilização para as linhas do histórico quando houver faturamento */
+.revenue-history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.history-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
 }

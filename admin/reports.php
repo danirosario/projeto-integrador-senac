@@ -2,25 +2,28 @@
 require_once('../conexao.php');
 
 // Total de pedidos do mês
-$result           = $conn->query("SELECT COUNT(*) AS total FROM `order` WHERE MONTH(OrderDate) = MONTH(CURRENT_DATE()) AND YEAR(OrderDate) = YEAR(CURRENT_DATE())");
-$totalData        = $result->fetch_assoc();
+$result = $conn->query("SELECT COUNT(*) AS total FROM `order` 
+                        WHERE MONTH(OrderDate) = MONTH(CURRENT_DATE()) AND YEAR(OrderDate) = YEAR(CURRENT_DATE())");
+$totalData = $result->fetch_assoc();
 $totalOrdersMonth = $totalData['total'] ?? 0;
 
 // Faturamento do mês
-$resultSum         = $conn->query("SELECT SUM(TotalAmount) AS totalValor FROM `order` WHERE MONTH(OrderDate) = MONTH(CURRENT_DATE()) AND YEAR(OrderDate) = YEAR(CURRENT_DATE())");
-$sumData           = $resultSum->fetch_assoc();
+$resultSum = $conn->query("SELECT SUM(TotalAmount) AS totalValor FROM `order` 
+                           WHERE MONTH(OrderDate) = MONTH(CURRENT_DATE()) AND YEAR(OrderDate) = YEAR(CURRENT_DATE())");
+$sumData = $resultSum->fetch_assoc();
 $totalRevenueMonth = $sumData['totalValor'] ?? 0;
 
 // Produto com mais estoque
-$topStockQuery   = $conn->query("SELECT Name, Stock FROM product WHERE isActive = 1 ORDER BY Stock DESC LIMIT 5");
-$topProductData  = $topStockQuery->fetch_assoc();
-$topProductName  = $topProductData['Name'] ?? 'Nenhum produto';
-$topProductStock = $topProductData['Stock'] ?? 'Nenhum estoque';
+$topStockQuery = $conn->query("SELECT Name, Stock FROM product WHERE isActive = 1 ORDER BY Stock DESC LIMIT 5");
 
 // Últimos 6 meses de faturamento
 $sixMonthsRevenue = $conn->query("SELECT DATE_FORMAT(OrderDate, '%Y-%m') AS Month, 
                                 SUM(TotalAmount) AS TotalRevenue FROM `order` WHERE OrderDate >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH) 
                                 GROUP BY Month ORDER BY Month DESC");
+
+// CURDATE() retorna a data atual do servidor.
+// DATE_SUB(..., INTERVAL 6 MONTH) subtrai 6 meses dessa data, 
+// garantindo que apenas os pedidos dos últimos 6 meses sejam considerados.
 ?>
 
 <!DOCTYPE html>
@@ -72,13 +75,19 @@ $sixMonthsRevenue = $conn->query("SELECT DATE_FORMAT(OrderDate, '%Y-%m') AS Mont
                     </div>
                 </div>
 
+                <!-- Juntei o Bloco 3 e o Bloco 4 na mesma div .reports-grid para alinharem lado a lado -->
                 <div class="reports-grid">
                     <!-- Bloco 3: Estoque -->
                     <div class="container-reports">
                         <h3 class="stat-label-top">Produto com mais estoque</h3>
                         <div class="product-info-row">
-                            <p class="stat-product-name"><?php echo htmlspecialchars($topProductName); ?></p>
-                            <span class="stat-subtext">  <?php echo $topProductStock; ?> em estoque</span>
+                            <?php while ($topProductData = $topStockQuery->fetch_assoc()) { ?>
+                                <div class="product-item">
+                                    <p class="stat-product-name"><?php echo htmlspecialchars($topProductData['Name']); ?>
+                                    </p>
+                                    <span class="stat-subtext"><?php echo $topProductData['Stock']; ?> em estoque</span>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
 
@@ -98,7 +107,7 @@ $sixMonthsRevenue = $conn->query("SELECT DATE_FORMAT(OrderDate, '%Y-%m') AS Mont
                                         <span class="month-revenue">R$
                                             <?php echo number_format($row['TotalRevenue'], 2, ',', '.'); ?></span>
                                     </li>
-                                <?php
+                                    <?php
                                 }
                             } else {
                                 echo "<p>Nenhum faturamento registrado.</p>";

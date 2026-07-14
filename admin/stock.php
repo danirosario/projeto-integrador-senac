@@ -82,7 +82,7 @@ $products = $conn->query("SELECT Name, Stock, MinStock FROM product WHERE isActi
                                         </td>
                                         <td>
                                             <div class="stock-actions">
-                                                <button class="btn-restock">Repor   </button>
+                                                <button class="btn-restock" >Repor  </button>
                                                 <button class="btn-withdraw">Retirar</button>
                                             </div>
                                         </td>
