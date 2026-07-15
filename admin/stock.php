@@ -74,7 +74,7 @@ $products = $conn->query("SELECT Name, Stock, MinStock FROM product WHERE isActi
                                     ?>
                                     <tr class="stock-item">
                                         <td><?php echo htmlspecialchars($product['Name']); ?></td>
-                                        <td><?php echo $product['Stock'];                  ?></td>
+                                        <td><?php echo $product['Stock']; ?></td>
                                         <td>
                                             <span class="<?php echo $classStatus; ?>">
                                                 <?php echo $statusItem; ?>
@@ -82,7 +82,7 @@ $products = $conn->query("SELECT Name, Stock, MinStock FROM product WHERE isActi
                                         </td>
                                         <td>
                                             <div class="stock-actions">
-                                                <button class="btn-restock" >Repor  </button>
+                                                <button class="btn-restock">Repor </button>
                                                 <button class="btn-withdraw">Retirar</button>
                                             </div>
                                         </td>
@@ -97,6 +97,34 @@ $products = $conn->query("SELECT Name, Stock, MinStock FROM product WHERE isActi
 
                     </table>
                 </section>
+
+                <!-- HISTÓRICO DE MOVIMENTAÇÕES -->
+                <div class="history-header">
+                    <h2>Histórico de Movimentações</h2>
+                    <span>Total de Produtos Ativos: <?php echo $totalProducts; ?></span><br>
+                    <span>Total em Estoque: <?php echo $totalStock; ?></span><br><br>
+                </div>
+                <section class="stock-section">
+                    <div class="history-content">
+                        <table class="stock-table">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Tipo de Movimentação</th>
+                                    <th>Quantidade</th>
+                                    <th>Data</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- LISTAR MOVIMENTAÇÕES -->
+                                <tr>
+                                    <td colspan="4">Nenhuma movimentação registrada.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
             </main>
 
             <!-- FOOTER -->

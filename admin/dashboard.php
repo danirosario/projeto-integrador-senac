@@ -115,7 +115,7 @@ $lowStockProducts = $conn->query("SELECT idProduct, Name, Stock, MinStock FROM p
             </ul>
           </div>
           <div class="chart-card">
-            <h3>Controle de Estoque</h3>
+            <h3>Estoque Baixo</h3>
             <ul class="dashboard-list">
               <?php if ($lowStockProducts->num_rows === 0): ?>
                 <li class="dashboard-list-empty">Nenhum produto com estoque baixo.</li>

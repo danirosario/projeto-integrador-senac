@@ -88,7 +88,7 @@ button[type="submit"]:hover {
     flex-wrap: wrap;
 }
 
-.product-actions button {
+.product-actions a {
     border: none;
     padding: 8px 12px;
     border-radius: 4px;

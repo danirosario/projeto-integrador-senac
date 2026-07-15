@@ -53,34 +53,41 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
     margin-bottom: 30px;
-    width: 495px;
-    display: inline-block;
+    flex: 1;
+    min-width: 350px;
+    display: block;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.chart-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(28, 58, 90, 0.08);
 }
 
 .dashboard-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .dashboard-list-item {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
 }
 
 .item-title {
-  font-weight: 600;
+    font-weight: 600;
 }
 
 .item-subtext {
-  font-size: 0.85rem;
-  color: #666;
+    font-size: 0.85rem;
+    color: #666;
 }
 
 .dashboard-list-empty {
-  color: #999;
-  font-style: italic;
-  padding: 10px 0;
+    color: #999;
+    font-style: italic;
+    padding: 10px 0;
 }

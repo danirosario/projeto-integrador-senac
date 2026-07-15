@@ -48,3 +48,15 @@
 .btn-withdraw:hover {
     background-color: #ef4444;
 }
+
+/*HISTÓRICO DE MOVIMENTAÇÕES*/
+
+.history-header h2 {
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+.history-header span {
+    font-size: 14px;
+    color: var(--text-color);
+}
