@@ -202,26 +202,7 @@ $products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
             </footer>
         </div>
     </div>
-
-    <!-- JS próprio do modal -->
-    <script>
-        // Abre o modal: adiciona a classe "show" (exibe) e trava o scroll da página
-        function openModal() {
-            document.getElementById('myModal').classList.add('show');
-            document.body.classList.add('modal-open');
-        }
-
-        // Fecha o modal: remove a classe "show" e libera o scroll da página
-        function closeModal() {
-            document.getElementById('myModal').classList.remove('show');
-            document.body.classList.remove('modal-open');
-        }
-
-        // Fecha o modal ao clicar fora do conteúdo (na área escurecida)
-        document.getElementById('myModal').addEventListener('click', function (e) {
-            if (e.target === this) closeModal();
-        });
-    </script>
+    <script src = "../js/modal.js"></script>
 </body>
 
 </html>
