@@ -46,6 +46,7 @@ $products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/admin-styles/products.css" />
+
     <title>CriArty - Produtos</title>
 </head>
 
@@ -69,102 +70,131 @@ $products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
 
         <div class="content-area">
             <main>
-                <p class="welcome-text">Cadastro de Produtos</p>
+                
+                <!-- TABELA -->
+                <section class="registered-products">
+                    
+                    <!-- Cabeçalho alinhando o título à esquerda e o botão à direita superior -->
+                    <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                        <h3 style="margin: 0; font-weight: bold;">Produtos Cadastrados</h3>
+                        
+                        <!-- Botão que abre o modal via JS próprio (função openModal, definida no fim da página) -->
+                        <button type="button" class="btn btn-info" onclick="openModal()" style="margin: 0;">
+                            + Adicionar Produto
+                        </button>
+                    </div>
 
-                <section class="products-section">
-                    <div class="product-card">
-                        <h3>Adicionar Novo Produto</h3>
-                        <form method="POST" action="products.php">
-                            <input type="hidden" name="action" value="add_product">
-                            <div class="form-group">
-                                <label for="product-name">Nome do Produto</label>
-                                <input type="text" id="product-name" name="product-name" placeholder="Nome do Produto" required />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="category">Categoria</label>
-                                <select id="category" name="category" required>
-                                    <option value="">Selecione...</option>
-                                    <?php while ($cat = $categories->fetch_assoc()): ?>
-                                    <option value="<?php echo (int) $cat['idCategory'] ?>">
-                                        <?php echo htmlspecialchars($cat['Name']) ?>
-                                    </option>
-                                    <?php endwhile; ?>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="description">Descrição</label>
-                                <input type="text" id="description" name="description" placeholder="Descrição" required />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="price">Preço</label>
-                                <input type="number" step="0.01" id="price" name="price" placeholder="Preço" required />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="image-url">URL da Imagem</label>
-                                <input type="text" id="image-url" name="image-url" placeholder="URL da Imagem" />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="stock">Quantidade em Estoque</label>
-                                <input type="number" id="stock" name="stock" placeholder="Quantidade em Estoque" required />
-                            </div>
-
-                            <button type="submit">Adicionar Produto</button>
-                        </form>
+                    <!-- TABELA -->
+                    <div class="table-responsive">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Categoria</th>
+                                    <th>Preço</th>
+                                    <th>Estoque</th>
+                                    <th>Descrição</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($p = $products->fetch_assoc()): ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo htmlspecialchars($p['Name']) ?>
+                                        </td>
+                                        <td>
+                                            <?php echo htmlspecialchars($p['CategoryName']) ?>
+                                        </td>
+                                        <td>R$
+                                            <?php echo number_format($p['BasePrice'], 2, ',', '.') ?>
+                                        </td>
+                                        <td>
+                                            <?php echo (int) $p['Stock'] ?>
+                                        </td>
+                                        <td class="description-text">
+                                            <?php echo htmlspecialchars($p['Description']) ?>
+                                        </td>
+                                        <td>
+                                            <div class="product-actions">
+                                                <a href="edit_product.php?id=<?= $p['idProduct'] ?>" class="btn-edit">Editar</a>
+                                                <a href="delete_product.php?id=<?= $p['idProduct'] ?>" class="btn-delete"
+                                                    onclick="return confirm('Excluir este produto?')">Excluir</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </section>
 
-                <p class="welcome-text"><br>Gerenciamento de Produtos Cadastrados</p>
+                <!-- Modal -->
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
 
-                <!-- TABELA -->
-                <section class="registered-products">
-                    <h3>Produtos Cadastrados</h3>
-
-                    <table class="products-table">
-                        <thead>
-                            <tr>
-                                <th>Produto</th>
-                                <th>Categoria</th>
-                                <th>Preço</th>
-                                <th>Estoque</th>
-                                <th>Descrição</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($p = $products->fetch_assoc()): ?>
-                            <tr>
-                                <td>
-                                    <?php echo htmlspecialchars($p['Name']) ?>
-                                </td>
-                                <td>
-                                    <?php echo htmlspecialchars($p['CategoryName']) ?>
-                                </td>
-                                <td>R$
-                                    <?php echo number_format($p['BasePrice'], 2, ',', '.') ?>
-                                </td>
-                                <td>
-                                    <?php echo (int) $p['Stock'] ?>
-                                </td>
-                                <td>
-                                    <?php echo htmlspecialchars($p['Description']) ?>
-                                </td>
-                                <td>
-                                    <div class="product-actions">
-                                        <a href="edit_product.php?id=<?= $p['idProduct'] ?>" class="btn-edit">Editar</a>
-                                        <a href="delete_product.php?id=<?= $p['idProduct'] ?>" class="btn-delete" 
-                                            onclick="return confirm('Excluir este produto?')">Excluir</a>
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" onclick="closeModal()">&times;</button>
+                                <h4 class="modal-title">Adicionar Novo Produto</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="products.php">
+                                    <input type="hidden" name="action" value="add_product">
+                                    
+                                    <div class="form-group">
+                                        <label for="product-name">Nome do Produto</label>
+                                        <input type="text" class="form-control" id="product-name" name="product-name"
+                                            placeholder="Nome do Produto" required />
                                     </div>
-                                </td>
-                            </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </section>
+
+                                    <div class="form-group">
+                                        <label for="category">Categoria</label>
+                                        <select class="form-control" id="category" name="category" required>
+                                            <option value="">Selecione...</option>
+                                            <?php while ($cat = $categories->fetch_assoc()): ?>
+                                                <option value="<?php echo (int) $cat['idCategory'] ?>">
+                                                    <?php echo htmlspecialchars($cat['Name']) ?>
+                                                </option>
+                                            <?php endwhile; ?>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="description">Descrição</label>
+                                        <textarea class="form-control" id="description" name="description" rows="3"
+                                            placeholder="Descrição" required></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="price">Preço</label>
+                                        <input type="number" step="0.01" class="form-control" id="price" name="price"
+                                            placeholder="Preço" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="image-url">URL da Imagem</label>
+                                        <input type="text" class="form-control" id="image-url" name="image-url"
+                                            placeholder="URL da Imagem" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="stock">Quantidade em Estoque</label>
+                                        <input type="number" class="form-control" id="stock" name="stock"
+                                            placeholder="Quantidade em Estoque" required />
+                                    </div>
+
+                                    <div class="modal-footer" style="padding: 15px 0 0 0; border-top: none;">
+                                        <button type="submit" class="btn btn-success">Adicionar Produto</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </main>
 
             <footer>
@@ -172,6 +202,26 @@ $products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
             </footer>
         </div>
     </div>
+
+    <!-- JS próprio do modal -->
+    <script>
+        // Abre o modal: adiciona a classe "show" (exibe) e trava o scroll da página
+        function openModal() {
+            document.getElementById('myModal').classList.add('show');
+            document.body.classList.add('modal-open');
+        }
+
+        // Fecha o modal: remove a classe "show" e libera o scroll da página
+        function closeModal() {
+            document.getElementById('myModal').classList.remove('show');
+            document.body.classList.remove('modal-open');
+        }
+
+        // Fecha o modal ao clicar fora do conteúdo (na área escurecida)
+        document.getElementById('myModal').addEventListener('click', function (e) {
+            if (e.target === this) closeModal();
+        });
+    </script>
 </body>
 
 </html>

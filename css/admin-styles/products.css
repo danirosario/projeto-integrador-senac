@@ -21,63 +21,165 @@
     margin-bottom: 20px;
 }
 
+/* .description-text {
+    max-width: 500px; // Limite maximo do texto
+    white-space: nowrap; //Removendo quebra de linha
+    overflow: hidden; //Removendo a barra de rolagem
+    text-overflow: ellipsis; //Adicionando "..." ao final do texto;
+
+}
+
+.description-text:hover{
+    overflow: visible;
+} */
+
+/* MODAL (substitui o Bootstrap, que estava sobrescrevendo o CSS padrão do site) */
+
+.modal {
+    display: none; /* fica escondido até receber a classe "show" via JS */
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, .5);  /* fundo escurecido, substitui o .modal-backdrop do Bootstrap */
+}
+
+.modal.show {
+    display: block;
+}
+
+.modal-dialog {
+    max-width: 500px;
+    margin: 60px auto;
+    position: relative;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+    padding: 20px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.modal-title {
+    margin: 0;
+    color: var(--deep-navy);
+    font-size: 1.3rem;
+}
+
+.close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #999;
+}
+
+.close:hover {
+    color: var(--terracotta-orange);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 15px;
+}
+
+/* Trava o scroll do body enquanto o modal está aberto */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* BOTÕES (genéricos, usados no modal e no cabeçalho da seção de produtos) */
+
+.btn {
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: .95rem;
+}
+
+.btn-default {
+    background: #eee;
+    color: #333;
+}
+
+.btn-info {
+    background: var(--deep-navy);
+    color: #fff;
+}
+
 /* FORMULÁRIO */
 
-form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+.modal-body form {
+    display: block;
     padding: 0;
 }
 
-.form-group {
+.modal-body .form-group {
+    margin-bottom: 15px;
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.form-group:nth-child(3) {
-    grid-column: 1 / -1;
-}
-
-input[type="text"],
-input[type="number"] {
+/* Estilização personalizada para os inputs com a classe form-control */
+.modal-body .form-control {
+    height: auto;
     padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     font-size: 1rem;
-}
-
-button[type="submit"] {
-    grid-column: 1 / -1;
+    box-shadow: none;
     width: 100%;
+}
+
+.modal-body .form-control:focus {
+    border-color: var(--terracotta-orange);
+    box-shadow: 0 0 0 2px rgba(221, 106, 83, 0.2);
+    outline: none;
+}
+
+.btn-success {
     background-color: var(--terracotta-orange);
+    border-color: var(--terracotta-orange);
     color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 6px;
     font-weight: 600;
-    cursor: pointer;
+    padding: 10px 20px;
+    transition: background-color 0.2s;
 }
 
-button[type="submit"]:hover {
+.btn-success:hover,
+.btn-success:focus {
     background-color: #dd6a53;
+    border-color: #dd6a53;
 }
 
-/* TABELA DE PRODUTOS */
+/* TABELA DE PRODUTOS*/
 
 .products-table {
     width: 100%;
+    border-collapse: collapse;
 }
 
 .products-table th,
 .products-table td {
     padding: 15px;
     text-align: left;
-}
-
-.products-table tbody tr:not(:last-child) td {
-    border-bottom: 1px solid #ddd;
+    vertical-align: middle;  /* Alinha os textos no centro vertical da linha */
 }
 
 /* AÇÕES */
@@ -89,6 +191,7 @@ button[type="submit"]:hover {
 }
 
 .product-actions a {
+    text-decoration: none;
     border: none;
     padding: 8px 12px;
     border-radius: 4px;
@@ -104,6 +207,7 @@ button[type="submit"]:hover {
 
 .btn-edit:hover {
     background-color: #3b82f6;
+    color: #fff;
 }
 
 .btn-delete {
@@ -113,4 +217,5 @@ button[type="submit"]:hover {
 
 .btn-delete:hover {
     background-color: #ef4444;
+    color: #fff;
 }
