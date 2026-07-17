@@ -10,13 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $price       = (float) $_POST['price'];        // -> product.BasePrice
     $imageUrl    = trim($_POST['image-url']);      // -> product.ImageURL
     $stock       = (int) $_POST['stock'];          // -> product.Stock
+    $minStock    = (int) $_POST['minStock'];       // -> product.MinStock
 
     if ($name !== '' && $categoryId > 0 && $price >= 0) {
-        $stmt = $conn->prepare("INSERT INTO product (Name, BasePrice, Stock, Description, ImageURL, Category_idCategory) 
-        VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO product (Name, BasePrice, Stock, MinStock, Description, ImageURL, Category_idCategory) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)");
 
         // Ordem:   Name  Price  Stock  Desc   ImageUrl CategoryId
-        $stmt->bind_param('sdisis', $name, $price, $stock, $description, $imageUrl, $categoryId);
+        $stmt->bind_param('sdiisis', $name, $price, $stock, $minStock, $description, $imageUrl, $categoryId);
         $stmt->execute();
         $stmt->close();
 
@@ -183,6 +184,12 @@ $products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
                                         <label for="stock">Quantidade em Estoque</label>
                                         <input type="number" class="form-control" id="stock" name="stock"
                                             placeholder="Quantidade em Estoque" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="minStock">Estoque Mínimo</label>
+                                        <input type="number" class="form-control" id="minStock" name="minStock"
+                                            placeholder="Quantidade Mínima do Estoque" required />
                                     </div>
 
                                     <div class="modal-footer" style="padding: 15px 0 0 0; border-top: none;">
