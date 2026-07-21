@@ -20,20 +20,7 @@
 .registered-products h3 {
     margin-bottom: 20px;
 }
-
-/* .description-text {
-    max-width: 500px; // Limite maximo do texto
-    white-space: nowrap; //Removendo quebra de linha
-    overflow: hidden; //Removendo a barra de rolagem
-    text-overflow: ellipsis; //Adicionando "..." ao final do texto;
-
-}
-
-.description-text:hover{
-    overflow: visible;
-} */
-
-/* MODAL (substitui o Bootstrap, que estava sobrescrevendo o CSS padrão do site) */
+/* MODAL */
 
 .modal {
     display: none; /* fica escondido até receber a classe "show" via JS */

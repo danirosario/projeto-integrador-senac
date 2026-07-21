@@ -24,7 +24,7 @@
     gap: 10px;
 }
 
-.stock-actions button {
+.stock-actions a {
     border: none;
     padding: 8px 12px;
     border-radius: 4px;
@@ -59,4 +59,8 @@
 .history-header span {
     font-size: 14px;
     color: var(--text-color);
+}
+
+input {
+    height: 30px;
 }
