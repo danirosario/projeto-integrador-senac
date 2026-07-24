@@ -1,7 +1,12 @@
 <?php
+// Inicia a sessão
+// session_start();
+
 require_once("../conexao.php");
 
+// Recupera ID do produto e ação vindos via URL (GET)
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$get_action = isset($_GET['action']) ? $_GET['action'] : '';
 
 // Total de produtos ativos
 $result = $conn->query("SELECT COUNT(*) AS total FROM product WHERE isActive = 1");
@@ -14,16 +19,25 @@ $totalStock = $result->fetch_assoc()["total"] ?? 0;
 // Busca os produtos para listar na tabela
 $products = $conn->query("SELECT idProduct, Name, Stock, MinStock FROM product WHERE isActive = 1");
 
-// REPOSIÇÃO DE ESTOQUE
+// REPOSIÇÃO E RETIRADA DE ESTOQUE (POST)
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $idProduct = intval($_POST['id']);
-    $addedQuantity = intval($_POST['stock']);
+    $action = $_POST['action'] ?? '';
+    $idProduct = isset($_POST['id']) ? intval($_POST['id']) : $id; // Garantir receber o ID via POST ou GET
+    $quantity = isset($_POST['stock']) ? intval($_POST['stock']) : 0;
 
-    if ($addedQuantity > 0) {
+    // AÇÃO DE ADICIONAR ESTOQUE (REPOSIÇÃO)
+    if ($action == "add") {
+        $addQuantity = $quantity;
         $stmt = $conn->prepare("UPDATE product SET Stock = Stock + ? WHERE idProduct = ?");
-        $stmt->bind_param("ii", $addedQuantity, $idProduct);
+        $stmt->bind_param("ii", $quantity, $idProduct);
 
         if ($stmt->execute()) {
+            $reason = "entrada";
+            $notes = "Entrada de produto";
+
+            $stmt = $conn->prepare("INSERT INTO stocklog (Product_idProduct, quantityChange, reason, notes, changedAt) VALUES (?, ?, ?, ?, NOW())");
+            $stmt->bind_param("iiss", $idProduct, $addQuantity, $reason, $notes);
+            $stmt->execute();
             header("Location: stock.php?status=success");
             exit;
         } else {
@@ -31,9 +45,50 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
         $stmt->close();
     }
+    // AÇÃO DE RETIRAR DO ESTOQUE
+    elseif ($action == "withdraw") {
+        $removedQuantity = $quantity; // Define a quantidade a ser removida
+
+        // Verifica o estoque atual do produto
+        $stmt = $conn->prepare("SELECT Stock FROM product WHERE idProduct = ?");
+        $stmt->bind_param("i", $idProduct);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $product = $result->fetch_assoc();
+        $stmt->close();
+
+        // Valida se há quantidade suficiente em estoque
+        if (!$product || $product['Stock'] < $removedQuantity) {
+            die("Quantidade indisponível em estoque.");
+        }
+
+        // Atualiza tirando do estoque
+        $stmt = $conn->prepare("UPDATE product SET Stock = Stock - ? WHERE idProduct = ?");
+        $stmt->bind_param("ii", $removedQuantity, $idProduct);
+        $stmt->execute();
+        $stmt->close();
+
+        // Registra a movimentação 
+        // $user = $_SESSION['idUser'] ?? null; // Usuário logado (Futuro)
+        $reason = "saida";
+        $notes = "Retirada manual";
+
+        // VERSÃO COM USER_ID (Para quando o sistema de login estiver pronto):
+        // $stmt = $conn->prepare("INSERT INTO stocklog (Product_idProduct, quantityChange, reason, notes, changedAt, User_idUser) VALUES (?, ?, ?, ?, NOW(), ?)");
+        // $stmt->bind_param("iissi", $idProduct, $removedQuantity, $reason, $notes, $user);
+
+        // VERSÃO ATUAL (Sem User_idUser):
+        $stmt = $conn->prepare("INSERT INTO stocklog (Product_idProduct, quantityChange, reason, notes, changedAt) VALUES (?, ?, ?, ?, NOW())");
+        $stmt->bind_param("iiss", $idProduct, $removedQuantity, $reason, $notes);
+        $stmt->execute();
+        $stmt->close();
+
+        header("Location: stock.php?status=success");
+        exit;
+    }
 }
 
-// BUSCA DADOS DO PRODUTO
+// BUSCA DADOS DO PRODUTO PARA MODAL
 $productData = null;
 if ($id > 0) {
     $stmt = $conn->prepare("SELECT Name, Stock FROM product WHERE idProduct = ?");
@@ -46,6 +101,12 @@ if ($id > 0) {
     }
     $stmt->close();
 }
+
+//HISTORICO DE MOVIMENTAÇÕES (para listar na tabela)
+$transactionHistory = $conn->query("SELECT p.Name, s.reason, s.quantityChange, s.changedAt
+                                    FROM product p INNER JOIN stocklog s ON p.idProduct = s.Product_idProduct
+                                    ORDER BY s.idStockLog DESC");
+
 ?>
 
 <!DOCTYPE html>
@@ -113,11 +174,11 @@ if ($id > 0) {
                                         </td>
                                         <td>
                                             <div class="stock-actions">
-                                                <a href="stock.php?id=<?= $product['idProduct'] ?>"
+                                                <!-- Parâmetro action adicionado às URLs para controlar abertura do modal correto -->
+                                                <a href="stock.php?id=<?= $product['idProduct'] ?>&action=restock"
                                                     class="btn-restock">Repor</a>
-                                                <a href="stock.php?id=<?= $product['idProduct'] ?>"
+                                                <a href="stock.php?id=<?= $product['idProduct'] ?>&action=withdraw"
                                                     class="btn-withdraw">Retirar</a>
-                                                <!--add modal para retirar do estoque-->
                                             </div>
                                         </td>
                                     </tr>
@@ -149,9 +210,26 @@ if ($id > 0) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="4">Nenhuma movimentação registrada.</td>
-                                </tr>
+                                <?php if ($transactionHistory && $transactionHistory->num_rows > 0): ?>
+                                    <?php while ($h = $transactionHistory->fetch_assoc()): ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo ($h['Name']) ?>
+                                            </td>
+                                            <td>
+                                                <?php echo ($h['reason']) ?>
+                                            </td>
+                                            <td>
+                                                <?php echo ($h['quantityChange']) ?>
+                                            </td>
+                                            <td>
+                                                <?php echo ((new DateTime($h['changedAt']))->format('d/m/y')); ?>
+                                            </td>
+                                        <?php endwhile; ?>
+                                    <?php else: ?>
+                                        <td colspan="4">Nenhuma movimentação registrada.</td>
+                                    </tr>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -166,15 +244,15 @@ if ($id > 0) {
         </div>
     </div>
 
-    <!-- MODAL DE REPOSIÇÃO -->
-    <?php if ($productData): ?>
+    <!-- MODAL DE REPOSIÇÃO (Abre apenas se action == 'restock') -->
+    <?php if ($productData && $get_action === 'restock'): ?>
         <div class="modal" id="myModal"
             style="display:block; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" onclick="window.location.href='stock.php'">&times;</button>
-                        <h4 class="modal-title">Reposiçao de Estoque</h4>
+                        <h4 class="modal-title">Reposição de Estoque</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -183,13 +261,47 @@ if ($id > 0) {
                         </div>
                         <form action="stock.php?id=<?= $id ?>" method="POST">
                             <div class="form-group">
-                                <input type="hidden" name="id" value="<?= $id ?>">
+                                <input type="hidden" name="action" value="add">
 
                                 <label for="stock">Quantidade a Adicionar:</label><br>
                                 <input type="number" id="stock" name="stock" min="1" required autofocus>
                             </div>
                             <div class="form-actions">
                                 <button class="btn btn-success">Salvar Reposição</button>
+                                <a href="stock.php" class="btn btn-default">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <!-- MODAL PARA RETIRAR (Abre apenas se action == 'withdraw') -->
+    <?php if ($productData && $get_action === 'withdraw'): ?>
+        <div class="modal" id="myModal"
+            style="display:block; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" onclick="window.location.href='stock.php'">&times;</button>
+                        <h4 class="modal-title">Retirar do Estoque</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h2>Produto: <?= htmlspecialchars($productData['Name']) ?></h2>
+                            <p>Estoque Atual: <strong><?= $productData['Stock'] ?></strong></p>
+                        </div>
+                        <form action="stock.php?id=<?= $id ?>" method="POST">
+                            <div class="form-group">
+                                <input type="hidden" name="action" value="withdraw">
+
+                                <label for="stock">Quantidade a Retirar:</label><br>
+                                <input type="number" id="stock" name="stock" min="1" max="<?= $productData['Stock'] ?>"
+                                    required autofocus>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-success">Salvar</button>
                                 <a href="stock.php" class="btn btn-default">Cancelar</a>
                             </div>
                         </form>
