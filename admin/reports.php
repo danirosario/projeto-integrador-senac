@@ -75,7 +75,6 @@ $sixMonthsRevenue = $conn->query("SELECT DATE_FORMAT(OrderDate, '%Y-%m') AS Mont
                     </div>
                 </div>
 
-                <!-- Juntei o Bloco 3 e o Bloco 4 na mesma div .reports-grid para alinharem lado a lado -->
                 <div class="reports-grid">
                     <!-- Bloco 3: Estoque -->
                     <div class="container-reports">
