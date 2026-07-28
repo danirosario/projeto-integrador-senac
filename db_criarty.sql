@@ -30,11 +30,10 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`customer` (
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isActive` TINYINT(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idCustomer`),
-  UNIQUE INDEX `uq_customer_email` (`Email` ASC) VISIBLE,
-  UNIQUE INDEX `uq_customer_cpf` (`CPF` ASC) VISIBLE)
+  UNIQUE INDEX `uq_customer_email` (`Email` ASC) ,
+  UNIQUE INDEX `uq_customer_cpf` (`CPF` ASC) )
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -52,14 +51,13 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`address` (
   `ZipCode` VARCHAR(9) NOT NULL,
   `isDefault` TINYINT(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idAddress`),
-  INDEX `fk_Address_Customer1_idx` (`Customer_idCustomer` ASC) VISIBLE,
+  INDEX `fk_Address_Customer1_idx` (`Customer_idCustomer` ASC),
   CONSTRAINT `fk_Address_Customer1`
     FOREIGN KEY (`Customer_idCustomer`)
     REFERENCES `lojacriartdb`.`customer` (`idCustomer`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -71,11 +69,10 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`category` (
   `Description` TEXT NULL DEFAULT NULL,
   `isActive` TINYINT(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idCategory`),
-  UNIQUE INDEX `uq_category_name` (`Name` ASC) VISIBLE)
+  UNIQUE INDEX `uq_category_name` (`Name` ASC))
 ENGINE = InnoDB
 AUTO_INCREMENT = 6
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -93,8 +90,8 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`order` (
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`idOrder`),
-  INDEX `fk_Order_Customer1_idx` (`Customer_idCustomer` ASC) VISIBLE,
-  INDEX `fk_Order_Address1_idx` (`Address_idAddress` ASC) VISIBLE,
+  INDEX `fk_Order_Customer1_idx` (`Customer_idCustomer` ASC),
+  INDEX `fk_Order_Address1_idx` (`Address_idAddress` ASC),
   CONSTRAINT `fk_Order_Address1`
     FOREIGN KEY (`Address_idAddress`)
     REFERENCES `lojacriartdb`.`address` (`idAddress`),
@@ -102,8 +99,7 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`order` (
     FOREIGN KEY (`Customer_idCustomer`)
     REFERENCES `lojacriartdb`.`customer` (`idCustomer`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -122,14 +118,13 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`product` (
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`idProduct`),
-  INDEX `fk_Product_Category1_idx` (`Category_idCategory` ASC) VISIBLE,
+  INDEX `fk_Product_Category1_idx` (`Category_idCategory` ASC),
   CONSTRAINT `fk_Product_Category1`
     FOREIGN KEY (`Category_idCategory`)
     REFERENCES `lojacriartdb`.`category` (`idCategory`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 8
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -143,8 +138,8 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`orderitems` (
   `UnitPrice` DECIMAL(10,2) NOT NULL,
   `CustomizationDetails` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`idOrderItems`),
-  INDEX `fk_OrderItems_Order_idx` (`Order_idOrder` ASC) VISIBLE,
-  INDEX `fk_OrderItems_Product_idx` (`Product_idProduct` ASC) VISIBLE,
+  INDEX `fk_OrderItems_Order_idx` (`Order_idOrder` ASC),
+  INDEX `fk_OrderItems_Product_idx` (`Product_idProduct` ASC),
   CONSTRAINT `fk_OrderItems_Order`
     FOREIGN KEY (`Order_idOrder`)
     REFERENCES `lojacriartdb`.`order` (`idOrder`)
@@ -153,8 +148,7 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`orderitems` (
     FOREIGN KEY (`Product_idProduct`)
     REFERENCES `lojacriartdb`.`product` (`idProduct`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -164,8 +158,8 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`product_orderitems` (
   `Product_idProduct` INT NOT NULL,
   `OrderItems_idOrderItems` INT NOT NULL,
   PRIMARY KEY (`Product_idProduct`, `OrderItems_idOrderItems`),
-  INDEX `fk_Product_has_OrderItems_OrderItems1_idx` (`OrderItems_idOrderItems` ASC) VISIBLE,
-  INDEX `fk_Product_has_OrderItems_Product1_idx` (`Product_idProduct` ASC) VISIBLE,
+  INDEX `fk_Product_has_OrderItems_OrderItems1_idx` (`OrderItems_idOrderItems` ASC),
+  INDEX `fk_Product_has_OrderItems_Product1_idx` (`Product_idProduct` ASC),
   CONSTRAINT `fk_Product_has_OrderItems_OrderItems1`
     FOREIGN KEY (`OrderItems_idOrderItems`)
     REFERENCES `lojacriartdb`.`orderitems` (`idOrderItems`),
@@ -184,10 +178,9 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`role` (
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`idRole`),
-  UNIQUE INDEX `uq_role_name` (`name` ASC) VISIBLE)
+  UNIQUE INDEX `uq_role_name` (`name` ASC))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -204,15 +197,14 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`user` (
   `isActive` TINYINT(1) NOT NULL DEFAULT '1',
   `Role_idRole` INT NOT NULL,
   PRIMARY KEY (`idUser`),
-  UNIQUE INDEX `uq_user_email` (`email` ASC) VISIBLE,
-  UNIQUE INDEX `uq_user_cpf` (`cpf` ASC) VISIBLE,
-  INDEX `fk_User_Role1_idx` (`Role_idRole` ASC) VISIBLE,
+  UNIQUE INDEX `uq_user_email` (`email` ASC) ,
+  UNIQUE INDEX `uq_user_cpf` (`cpf` ASC),
+  INDEX `fk_User_Role1_idx` (`Role_idRole` ASC),
   CONSTRAINT `fk_User_Role1`
     FOREIGN KEY (`Role_idRole`)
     REFERENCES `lojacriartdb`.`role` (`idRole`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -227,8 +219,8 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`stocklog` (
   `notes` VARCHAR(255) NULL DEFAULT NULL,
   `changedAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idStockLog`),
-  INDEX `fk_StockLog_Product1_idx` (`Product_idProduct` ASC) VISIBLE,
-  INDEX `fk_StockLog_User1_idx` (`User_idUser` ASC) VISIBLE,
+  INDEX `fk_StockLog_Product1_idx` (`Product_idProduct` ASC),
+  INDEX `fk_StockLog_User1_idx` (`User_idUser` ASC),
   CONSTRAINT `fk_StockLog_Product1`
     FOREIGN KEY (`Product_idProduct`)
     REFERENCES `lojacriartdb`.`product` (`idProduct`),
@@ -237,8 +229,8 @@ CREATE TABLE IF NOT EXISTS `lojacriartdb`.`stocklog` (
     REFERENCES `lojacriartdb`.`user` (`idUser`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 6
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+DEFAULT CHARACTER SET = utf8mb4;
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
