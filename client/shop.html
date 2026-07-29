@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CriArty | Produtos</title> 
+    <title>CriArty | Produtos</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/client-styles/shop.css">
 </head>
@@ -13,13 +13,56 @@
     <!-- NAVBAR -->
     <header>
         <nav class="navbar">
+            <div class="nav-logo">
+                <a href="#">BrandLogo</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#produtos">Produtos</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
         </nav>
+
+        <!-- CARROSSEL -->
+        <div class="slider">
+            <div class="slides">
+                <!-- Radio Buttons -->
+                <input type="radio" name="radio-btn" id="radio1">
+                <input type="radio" name="radio-btn" id="radio2">
+                <input type="radio" name="radio-btn" id="radio3">
+                <input type="radio" name="radio-btn" id="radio4">
+
+                <!-- Slide Imagens -->
+                <div class="slide-img">
+                    <img src="" alt="imagem 1">
+                </div>
+                <div class="slide-img">
+                    <img src="" alt="imagem 2">
+                </div>
+                <div class="slide-img">
+                    <img src="" alt="imagem 3">
+                </div>
+                <div class="slide-img">
+                    <img src="" alt="imagem 4">
+                </div>
+
+                <!-- NAVIGATION AUTO -->
+                <div class="navigation-auto">
+                    <div class="auto-btn1"></div>
+                    <div class="auto-btn2"></div>
+                    <div class="auto-btn3"></div>
+                    <div class="auto-btn4"></div>
+                </div>
+            </div>
+        </div>
+
     </header>
 
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
     <div class="content-area">
         <main class="main-content">
-            
+
             <article class="product-card">
                 <img src="caminho/para/imagem1.jpg" alt="Caneca Personalizada de Cerâmica">
                 <div class="card-content">
@@ -31,7 +74,7 @@
             </article>
         </main>
     </div>
-
+    <script src="../js/slider.js"></script>
 </body>
 
 </html>

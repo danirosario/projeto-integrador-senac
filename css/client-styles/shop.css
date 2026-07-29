@@ -1,3 +1,50 @@
+body {
+    justify-content: center;
+    align-items: center;
+}
+
+/* NAVBAR */
+
+/* Navbar container layout */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 1rem 2rem;
+  font-family: sans-serif;
+}
+
+/* Logo styling */
+.nav-logo a {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Links alignment group */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem; /* Creates clean gap between links */
+}
+
+/* Individual hyperlink styling */
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+/* Interactive hover effect */
+.nav-links a:hover {
+  color: #ffd700; /* Changes to gold on hover */
+}
+
+/* CARDS DOS PRODUTOS */
+
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -10,7 +57,7 @@
     background: white;
     padding: 15px;
     width: 280px;
-    height: 300px;
+    height: 360px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     text-align: center;
