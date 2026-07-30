@@ -34,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Buscar dados do produto para preencher o formulário
 $stmt = $conn->prepare("SELECT Name, BasePrice, Stock, Description, ImageURL, Category_idCategory FROM product WHERE idProduct = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
