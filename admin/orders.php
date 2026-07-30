@@ -79,9 +79,7 @@ $orders = $conn->query("SELECT o.idOrder, o.OrderDate, o.Status, o.PaymentStatus
                         <?php 
                         // Verifica se a consulta retornou alguma linha do banco de dados
                         if ($orders && $orders->num_rows > 0):
-                            
-                            // Inicia o loop 'while'. Enquanto houver registros no banco, ele continuará rodando
-                            // e jogando os dados do pedido atual dentro da variável $pedido.
+
                             while($order = $orders->fetch_assoc()): 
                         ?>
                             <li class="order-item">

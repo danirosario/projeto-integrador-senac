@@ -16,12 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $stmt = $conn->prepare("INSERT INTO product (Name, BasePrice, Stock, MinStock, Description, ImageURL, Category_idCategory) 
         VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-        // Ordem:   Name  Price  Stock  Desc   ImageUrl CategoryId
         $stmt->bind_param('sdiisis', $name, $price, $stock, $minStock, $description, $imageUrl, $categoryId);
         $stmt->execute();
         $stmt->close();
 
-        header('Location: products.php'); // evita reenvio do form ao dar F5
+        header('Location: products.php'); 
         exit;
     }
 }
@@ -74,12 +73,10 @@ $products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
                 
                 <!-- TABELA -->
                 <section class="registered-products">
-                    
-                    <!-- Cabeçalho alinhando o título à esquerda e o botão à direita superior -->
+
                     <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
                         <h3 style="margin: 0; font-weight: bold;">Produtos Cadastrados</h3>
-                        
-                        <!-- Botão que abre o modal via JS próprio (função openModal, definida no fim da página) -->
+
                         <button type="button" class="btn btn-info" onclick="openModal()" style="margin: 0;">
                             + Adicionar Produto
                         </button>
