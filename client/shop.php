@@ -1,3 +1,16 @@
+<?php
+require_once("../conexao.php");
+
+$result = $conn->query("SELECT Name, BasePrice, Description, ImageURL FROM product WHERE isActive = 1");
+
+$products = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -70,16 +83,28 @@
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
     <div class="content-area">
         <main class="main-content">
-
-            <article class="product-card">
-                <img src="caminho/para/imagem1.jpg" alt="Caneca Personalizada de Cerâmica">
-                <div class="card-content">
-                    <h3>Caneca Personalizada</h3>
-                    <h4>Descrição</h4>
-                    <span class="price">R$ 29,90</span>
-                    <button type="button">Comprar</button>
-                </div>
-            </article>
+            <?php if (!empty($products)): ?>
+                <?php foreach ($products as $product): ?>
+                    <article class="product-card">
+                        <img src="<?php echo ($product['ImageURL']); ?>" alt="<?php echo ($product['Name']); ?>">
+                        <div class="card-content">
+                            <h3>
+                                <?php echo ($product['Name']); ?>
+                            </h3>
+                            <h4>Descrição</h4>
+                            <p>
+                                <?php echo ($product['Description']); ?>
+                            </p>
+                            <span class="price">R$
+                                <?php echo number_format($product['BasePrice'], 2, ',', '.'); ?>
+                            </span>
+                            <button type="button">Comprar</button>
+                        </div>
+                    </article><br>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Nenhum produto encontrado.</p>
+            <?php endif; ?>
         </main>
     </div>
     <script src="../js/slider.js"></script>
