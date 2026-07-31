@@ -3,28 +3,30 @@ require_once("../conexao.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_product') {
 
-    // Mapeamento: campo do formulário -> coluna do banco
-    $name        = trim($_POST['product-name']);   // -> product.Name
-    $categoryId  = (int) $_POST['category'];       // -> product.Category_idCategory
-    $description = trim($_POST['description']);    // -> product.Description
-    $price       = (float) $_POST['price'];        // -> product.BasePrice
-    $imageUrl    = trim($_POST['image-url']);      // -> product.ImageURL
-    $stock       = (int) $_POST['stock'];          // -> product.Stock
-    $minStock    = (int) $_POST['minStock'];       // -> product.MinStock
+    $name        = trim($_POST['product-name'] ?? '');   
+    $categoryId  = (int) ($_POST['category'] ?? 0);      
+    $description = trim($_POST['description'] ?? '');    
+    $price       = (float) ($_POST['price'] ?? 0);        
+    $imageUrl    = trim($_POST['image-url'] ?? '');      
+    $stock       = (int) ($_POST['stock'] ?? 0);          
+    $minStock    = (int) ($_POST['minStock'] ?? 0);      
 
-    if ($name !== '' && $categoryId > 0 && $price >= 0) {
-        $stmt = $conn->prepare("INSERT INTO product (Name, BasePrice, Stock, MinStock, Description, ImageURL, Category_idCategory) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)");
-
-        $stmt->bind_param('sdiisis', $name, $price, $stock, $minStock, $description, $imageUrl, $categoryId);
-        $stmt->execute();
-        $stmt->close();
-
-        header('Location: products.php'); 
-        exit;
+    if ($name !== '' && $categoryId > 0) {
+        $stmt = $conn->prepare("INSERT INTO product (Name, BasePrice, Stock, MinStock, Description, ImageURL, Category_idCategory) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param('sdiisss', $name, $price, $stock, $minStock, $description, $imageUrl, $categoryId);
+        
+        // Executa e verifica se deu erro
+        if ($stmt->execute()) {
+            $stmt->close();
+            header('Location: products.php'); 
+            exit;
+        } else {
+            die("Erro ao executar o INSERT: " . $stmt->error);
+        }
+    } else {
+        die("Validação falhou: Verifique se o nome e a categoria foram preenchidos.");
     }
 }
-
 
 // BUSCAR CATEGORIAS 
 $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive = 1 ORDER BY Name");

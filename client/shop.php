@@ -82,26 +82,29 @@ if ($result->num_rows > 0) {
 
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
     <div class="content-area">
-        <main class="main-content">
+        <main class="main-content" id="produtos">
+            <h1>Produtos</h1>
             <?php if (!empty($products)): ?>
-                <?php foreach ($products as $product): ?>
-                    <article class="product-card">
-                        <img src="<?php echo ($product['ImageURL']); ?>" alt="<?php echo ($product['Name']); ?>">
-                        <div class="card-content">
-                            <h3>
-                                <?php echo ($product['Name']); ?>
-                            </h3>
-                            <h4>Descrição</h4>
-                            <p>
-                                <?php echo ($product['Description']); ?>
-                            </p>
-                            <span class="price">R$
-                                <?php echo number_format($product['BasePrice'], 2, ',', '.'); ?>
-                            </span>
-                            <button type="button">Comprar</button>
-                        </div>
-                    </article><br>
-                <?php endforeach; ?>
+                <div class="product-grid">
+                    <?php foreach ($products as $product): ?>
+                        <article class="product-card">
+                            <img src="<?php echo ($product['ImageURL']); ?>" alt="<?php echo ($product['Name']); ?>">
+                            <div class="card-content">
+                                <h3>
+                                    <?php echo ($product['Name']); ?>
+                                </h3>
+                                <h4>Descrição</h4>
+                                <p>
+                                    <?php echo ($product['Description']); ?>
+                                </p>
+                                <span class="price">R$
+                                    <?php echo number_format($product['BasePrice'], 2, ',', '.'); ?>
+                                </span>
+                                <button type="button">Comprar</button>
+                            </div>
+                        </article><br>
+                    <?php endforeach; ?>
+                </div>
             <?php else: ?>
                 <p>Nenhum produto encontrado.</p>
             <?php endif; ?>

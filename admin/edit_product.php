@@ -10,17 +10,17 @@ if ($id <= 0) {
 $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive = 1 ORDER BY Name");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name         = $_POST['product-name'];
-    $price        = floatval($_POST['price']);
-    $stock        = intval($_POST['stock']);
-    $description  = $_POST['description'];
-    $img          = $_POST['image-url'];
-    $category     = intval($_POST['category']);
-    $idPost       = intval($_POST['id']);
+    $name = $_POST['product-name'];
+    $price = floatval($_POST['price']);
+    $stock = intval($_POST['stock']);
+    $description = $_POST['description'];
+    $img = $_POST['image-url'];
+    $category = intval($_POST['category']);
+    $idPost = intval($_POST['id']);
 
     if ($idPost > 0) {
         $stmt = $conn->prepare("UPDATE product SET Name = ?, BasePrice = ?, Stock = ?, Description = ?, ImageURL = ?, Category_idCategory = ? WHERE idProduct = ?");
-        $stmt->bind_param("sdisiii", $name, $price, $stock, $description, $img, $category, $idPost);
+        $stmt->bind_param("sdissii", $name, $price, $stock, $description, $img, $category, $idPost);
 
         if ($stmt->execute()) {
             echo "<script> alert('Editado com sucesso!'); window.location.href = 'products.php'; </script>";
@@ -89,7 +89,7 @@ $stmt->close();
                                         <option value="<?php echo (int) $cat['idCategory'] ?>" <?php echo $selected; ?>>
                                             <?php echo htmlspecialchars($cat['Name']) ?>
                                         </option>
-                                    <?php
+                                        <?php
                                     endwhile;
                                 endif;
                                 ?>
@@ -122,14 +122,15 @@ $stmt->close();
 
                         <div class="modal-footer" style="padding: 15px 0 0 0; border-top: none;">
                             <button type="submit" class="btn btn-success">Salvar Alterações</button>
-                            <a href="products.php" class="btn btn-default" style="text-decoration: none; margin-left: 10px;">Cancelar</a>
+                            <a href="products.php" class="btn btn-default"
+                                style="text-decoration: none; margin-left: 10px;">Cancelar</a>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <script src = "../js/modal.js"></script>
+    <script src="../js/modal.js"></script>
 </body>
 
 </html>

@@ -20,6 +20,10 @@
     --border-color: #e8e4da;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-main);
