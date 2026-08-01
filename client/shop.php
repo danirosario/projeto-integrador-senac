@@ -30,9 +30,9 @@ if ($result->num_rows > 0) {
                 <a href="#">Logo</a>
             </div>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
+                <li><a href="shop.php">Home</a></li>
                 <li><a href="#produtos">Produtos</a></li>
-                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="about.php">Sobre</a></li>
                 <li><a href="#contato">Contato</a></li>
             </ul>
         </nav>
@@ -51,7 +51,7 @@ if ($result->num_rows > 0) {
                     <img src="../images/slide_padrao.png" alt="imagem 1">
                 </div>
                 <div class="slide-img">
-                    <img src="../images/img43.jpg" alt="imagem 2">
+                    <img src="../images/slide_padrao.png" alt="imagem 2">
                 </div>
                 <div class="slide-img">
                     <img src="../images/slide_padrao.png" alt="imagem 3">
@@ -109,6 +109,10 @@ if ($result->num_rows > 0) {
                 <p>Nenhum produto encontrado.</p>
             <?php endif; ?>
         </main>
+        <footer>
+            <p>&copy; 2026 CriArty. Todos os direitos reservados.</p>
+            <a href="#">Retornar ao topo</a>
+        </footer>
     </div>
     <script src="../js/slider.js"></script>
 </body>
