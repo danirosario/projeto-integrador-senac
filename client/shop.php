@@ -30,10 +30,13 @@ if ($result->num_rows > 0) {
                 <a href="#">Logo</a>
             </div>
             <ul class="nav-links">
+
                 <li><a href="shop.php">Home</a></li>
                 <li><a href="#produtos">Produtos</a></li>
                 <li><a href="about.php">Sobre</a></li>
                 <li><a href="#contato">Contato</a></li>
+
+                <li><a href="">PERFIL</a></li>
             </ul>
         </nav>
 
@@ -83,7 +86,7 @@ if ($result->num_rows > 0) {
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
     <div class="content-area">
         <main class="main-content" id="produtos">
-            <h1>Produtos</h1>
+            <h1 id="products-title">Produtos</h1>
             <?php if (!empty($products)): ?>
                 <div class="product-grid">
                     <?php foreach ($products as $product): ?>
@@ -108,12 +111,14 @@ if ($result->num_rows > 0) {
             <?php else: ?>
                 <p>Nenhum produto encontrado.</p>
             <?php endif; ?>
+
+            <h2>Categorias</h2>
         </main>
-        <footer>
-            <p>&copy; 2026 CriArty. Todos os direitos reservados.</p>
-            <a href="#">Retornar ao topo</a>
-        </footer>
     </div>
+    <footer>
+        <p>&copy; 2026 CriArty. Todos os direitos reservados.</p>
+        <a href="#">Retornar ao topo</a>
+    </footer>
     <script src="../js/slider.js"></script>
 </body>
 
