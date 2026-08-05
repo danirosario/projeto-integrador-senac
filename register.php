@@ -1,3 +1,7 @@
+<?php 
+require_once 'config.php';
+
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -22,17 +26,17 @@
 
                     <div class="input-group">
                         <label>Email</label>
-                        <input type="email" placeholder="Digite seu e-mail">
+                        <input type="email" placeholder="Digite seu e-mail" name="email" required>
                     </div>
 
                     <div class="input-group">
                         <label>Senha</label>
-                        <input type="password" placeholder="Digite sua senha">
+                        <input type="password" placeholder="Digite sua senha" name="password" required>
                     </div>
 
                     <div class="input-group">
                         <label>Confirmar Senha</label>
-                        <input type="password" placeholder="Digite sua senha novamente">
+                        <input type="password" placeholder="Digite sua senha novamente" name="confirm_password" required>
                     </div>
 
                     <button class="btn-login">

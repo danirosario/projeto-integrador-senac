@@ -2,7 +2,7 @@
 // Inicia a sessão
 // session_start();
 
-require_once("../conexao.php");
+require_once("../config.php");
 
 // Recupera ID do produto e ação vindos via URL (GET)
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;

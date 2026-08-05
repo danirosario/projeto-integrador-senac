@@ -1,5 +1,5 @@
 <?php
-require_once('../conexao.php');
+require_once('../config.php');
 
 // Total de pedidos do mês
 $result = $conn->query("SELECT COUNT(*) AS total FROM `order` 

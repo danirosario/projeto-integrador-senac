@@ -1,5 +1,5 @@
 <?php
-require_once("../conexao.php");
+require_once("../config.php");
 
 $result = $conn->query("SELECT Name, BasePrice, Description, ImageURL FROM product WHERE isActive = 1");
 
