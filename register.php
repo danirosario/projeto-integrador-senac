@@ -37,6 +37,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
+                if(empty($cpf)) {
+                    $cpf = null; 
+                } else {
+                    $cpf = preg_replace('/\D/', '', $cpf);
+                }
+
                 $stmt = $conn->prepare("INSERT INTO user (name, email, passwordHash, phone, cpf, Role_idRole) VALUES (?, ?, ?, ?, ?, ?)");
 
                 $stmt->bind_param("sssssi", $name, $email, $hashedPassword, $phone, $cpf, $idRole);
@@ -55,7 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-BR">

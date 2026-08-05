@@ -7,22 +7,27 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/client-styles/shop.css">
     <link rel="stylesheet" href="../css/client-styles/about.css">
+    <link rel="stylesheet" href="../css/client-styles/footer.css">
     <title>Sobre Nós - CriArty</title>
 </head>
 
 <body>
     <header>
-        <nav class="navbar" aria-label="Navegação principal">
+        <nav class="navbar">
             <div class="nav-logo">
-                <a href="shop.php">CriArty</a>
+                <a href="#">Logo</a>
             </div>
+
             <ul class="nav-links">
                 <li><a href="shop.php">Home</a></li>
                 <li><a href="shop.php">Produtos</a></li>
                 <li><a href="about.php">Sobre</a></li>
                 <li><a href="#contato">Contato</a></li>
-                <li><a href="">PERFIL</a></li>
             </ul>
+
+            <div class="perfil">
+                <a href="#">PERFIL</a>
+            </div>
         </nav>
     </header>
 
@@ -31,7 +36,8 @@
             <div class="about-title">
                 <h1>Sobre Nós</h1>
             </div>
-            <p id="about-us">A <strong>CriArty</strong> nasceu do desejo profundo de resgatar o valor emocional que os objetos do dia a
+            <p id="about-us">A <strong>CriArty</strong> nasceu do desejo profundo de resgatar o valor emocional que os
+                objetos do dia a
                 dia podem carregar. Em um mundo cada vez mais padronizado e acelerado, a empresa foi fundada para ser um
                 respiro de originalidade: um espaço onde o trabalho artesanal e o design intencional se encontram para
                 dar vida a histórias reais. <br><br>
@@ -51,7 +57,8 @@
                 <strong>O Compromisso</strong><br>
                 Mais do que entregar personalizados, a CriArty constrói conexões. Com transparência do primeiro
                 atendimento à entrega final, o objetivo é garantir que a experiência de idealizar um produto seja tão
-                especial quanto o momento de recebê-lo.</p>
+                especial quanto o momento de recebê-lo.
+            </p>
             <br>
 
             <div class="about-us-cards">
@@ -101,9 +108,38 @@
     </main>
 
     <footer id="contato">
-        <p>&copy; 2026 CriArty. Todos os direitos reservados.</p>
-        <a href="#">Retornar ao topo</a>
+        <div class="footer-container">
+            <!-- Coluna 1: Contato -->
+            <div class="footer-column contato-block">
+                <h2>Contato</h2>
+                <div class="contato-content">
+                    <p>Entre em contato conosco:</p>
+                    <ul>
+                        <li>Email: <a href="mailto:contato@criarty.com">contato@criarty.com</a></li>
+                        <li>Telefone: <a href="tel:+5511999999999">(11) 99999-9999</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Coluna 2: Redes Sociais -->
+            <div class="footer-column social-block">
+                <h2>Siga-nos</h2>
+                <ul>
+                    <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
+                    <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+                    <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna 3: Copyright e Topo (Agora integrado na linha principal) -->
+            <div class="footer-column credits-block">
+                <p>&copy; 2026 CriArty.<br>Todos os direitos reservados.</p>
+                <a href="#" class="back-to-top">Retornar ao topo</a>
+            </div>
+        </div>
     </footer>
+    <script src="../js/slider.js"></script>
+
 </body>
 
 </html>

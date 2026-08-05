@@ -9,7 +9,7 @@
 
 .left-side {
     flex: 1; 
-    background: #3F51B5;
+    background: var(--deep-navy);
     color: white;
     display: flex;
     justify-content: center;
@@ -31,6 +31,7 @@
 .brand h1 {
     font-size: 48px;
     margin-bottom: 20px;
+    color: #E2725B;
 }
 
 .brand p {
@@ -100,7 +101,7 @@
 }
 
 .input-group input:focus {
-    border-color: #3F51B5;
+    border-color: var(--deep-navy);
     box-shadow: 0 0 5px rgba(63, 81, 181, .3);
 }
 
@@ -109,7 +110,7 @@
     padding: 12px;
     border: none;
     border-radius: 6px;
-    background: #3F51B5;
+    background: var(--deep-navy);
     color: white;
     font-size: 16px;
     font-weight: bold;
@@ -118,7 +119,7 @@
 }
 
 .btn-login:hover {
-    background: #303F9F;
+    background: #131e66;
 }
 
 .footer-text {
@@ -129,7 +130,7 @@
 }
 
 .footer-text a {
-    color: #3F51B5;
+    color: var(--deep-navy);
     text-decoration: none;
     font-weight: bold;
 }

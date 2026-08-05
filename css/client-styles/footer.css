@@ -1,0 +1,68 @@
+footer {
+    background-color: var(--bg-card, #ffffff);
+    padding: 30px 20px; /* Reduzido o padding vertical para diminuir o espaço */
+    font-size: 0.85rem;
+    color: #829ab1;
+    border-top: 1px solid var(--border-color, #e4e7eb);
+}
+
+/* Alinha as 3 colunas uniformemente no espaço */
+footer .footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* Configuração base das colunas */
+.footer-column {
+    flex: 1;
+}
+
+/* Estilização padrão de listas e links */
+footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer li {
+    margin-bottom: 6px;
+}
+
+footer a {
+    color: #829ab1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+footer a:hover {
+    text-decoration: underline;
+    color: #334e68;
+}
+
+/* Alinhamento dos Títulos compactos */
+footer h2 {
+    color: #334e68;
+    font-size: 1rem;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Ajustes da coluna de créditos (Direita) */
+.credits-block {
+    text-align: right;
+}
+
+.credits-block p {
+    margin: 0 0 10px 0;
+    line-height: 1.4;
+}
+
+.back-to-top {
+    font-weight: 600;
+    color: #486581;
+}

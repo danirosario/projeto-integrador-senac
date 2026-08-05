@@ -20,6 +20,7 @@ if ($result->num_rows > 0) {
     <title>CriArty | Produtos</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/client-styles/shop.css">
+    <link rel="stylesheet" href="../css/client-styles/footer.css">
 </head>
 
 <body>
@@ -29,16 +30,19 @@ if ($result->num_rows > 0) {
             <div class="nav-logo">
                 <a href="#">Logo</a>
             </div>
-            <ul class="nav-links">
 
-                <li><a href="shop.php">Home</a></li>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
                 <li><a href="#produtos">Produtos</a></li>
                 <li><a href="about.php">Sobre</a></li>
                 <li><a href="#contato">Contato</a></li>
-
-                <li><a href="">PERFIL</a></li>
             </ul>
+
+            <div class="perfil">
+                <a href="#">PERFIL</a>
+            </div>
         </nav>
+
 
         <!-- CARROSSEL -->
         <div class="slider">
@@ -110,15 +114,45 @@ if ($result->num_rows > 0) {
                 </div>
             <?php else: ?>
                 <p>Nenhum produto encontrado.</p>
-            <?php endif; ?>
+            <?php endif; ?><br><br>
 
             <h2>Categorias</h2>
         </main>
     </div>
-    <footer>
-        <p>&copy; 2026 CriArty. Todos os direitos reservados.</p>
-        <a href="#">Retornar ao topo</a>
+
+    <footer id="contato">
+        <div class="footer-container">
+            <!-- Coluna 1: Contato -->
+            <div class="footer-column contato-block">
+                <h2>Contato</h2>
+                <div class="contato-content">
+                    <p>Entre em contato conosco:</p>
+                    <ul>
+                        <li>Email: <a href="mailto:contato@criarty.com">contato@criarty.com</a></li>
+                        <li>Telefone: <a href="tel:+5511999999999">(11) 99999-9999</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Coluna 2: Redes Sociais -->
+            <div class="footer-column social-block">
+                <h2>Siga-nos</h2>
+                <ul>
+                    <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
+                    <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+                    <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna 3: Copyright e Topo (Agora integrado na linha principal) -->
+            <div class="footer-column credits-block">
+                <p>&copy; 2026 CriArty.<br>Todos os direitos reservados.</p>
+                <a href="#" class="back-to-top">Retornar ao topo</a>
+            </div>
+        </div>
     </footer>
+
+
     <script src="../js/slider.js"></script>
 </body>
 
