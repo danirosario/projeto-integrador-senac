@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $idRole = $rowRole['idRole'];
                 $stmtRole->close();
 
-                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
                 if(empty($cpf)) {
                     $cpf = null; 
