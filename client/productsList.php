@@ -12,7 +12,7 @@ if ($result->num_rows > 0) {
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -20,7 +20,7 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/client-styles/shop.css">
     <link rel="stylesheet" href="../css/client-styles/footer.css">
-    <title>CriArty | Produtos</title>
+    <title>Document</title>
 </head>
 
 <body>
@@ -43,65 +43,19 @@ if ($result->num_rows > 0) {
             </div>
         </nav>
 
-
-        <!-- CARROSSEL -->
-        <div class="slider">
-            <div class="slides">
-                <!-- Radio Buttons -->
-                <input type="radio" name="radio-btn" id="radio1" checked>
-                <input type="radio" name="radio-btn" id="radio2">
-                <input type="radio" name="radio-btn" id="radio3">
-                <input type="radio" name="radio-btn" id="radio4">
-
-                <!-- Slide Imagens -->
-                <div class="slide-img">
-                    <img src="../images/slide_padrao.png" alt="imagem 1">
-                </div>
-                <div class="slide-img">
-                    <img src="../images/slide_padrao.png" alt="imagem 2">
-                </div>
-                <div class="slide-img">
-                    <img src="../images/slide_padrao.png" alt="imagem 3">
-                </div>
-                <div class="slide-img">
-                    <img src="../images/slide_padrao.png" alt="imagem 4">
-                </div>
-
-                <!-- NAVIGATION AUTO -->
-                <div class="navigation-auto">
-                    <div class="auto-btn1"></div>
-                    <div class="auto-btn2"></div>
-                    <div class="auto-btn3"></div>
-                    <div class="auto-btn4"></div>
-                </div>
-            </div>
-
-            <!-- MANUAL NAVIGATION -->
-            <div class="manual-navigation">
-                <label for="radio1" class="manual-btn"></label>
-                <label for="radio2" class="manual-btn"></label>
-                <label for="radio3" class="manual-btn"></label>
-                <label for="radio4" class="manual-btn"></label>
-            </div>
-        </div>
-
     </header>
 
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
     <div class="content-area">
         <main class="main-content" id="produtos">
-            <div>
-                <h1 id="products-title">Produtos</h1>
-                <a href="productsList.php">Ver todos os produtos</a>
-            </div><br>
+            <h1 id="products-title">Produtos</h1>
+
             <?php if (!empty($products)): ?>
                 <div class="product-grid">
                     <?php
-                    $count = 0;
+
                     foreach ($products as $product):
-                        if ($count >= 4)
-                            break;
-                        $count++;
+
                         ?>
                         <article class="product-card">
                             <img src="<?php echo htmlspecialchars($product['ImageURL']); ?>"
@@ -121,24 +75,7 @@ if ($result->num_rows > 0) {
             <?php endif; ?>
 
             <br>
-            <h2>Categorias</h2>
-            <div class="categories">
-                <div class="category-card">
-                    <img src="../images/categoria_padrao.png" alt="Categoria 1">
-                    <h3>Categoria 1</h3>
-                </div>
-                <div class="category-card">
-                    <img src="../images/categoria_padrao.png" alt="Categoria 2">
-                    <h3>Categoria 2</h3>
-                </div>
-                <div class="category-card">
-                    <img src="../images/categoria_padrao.png" alt="Categoria 3">
-                    <h3>Categoria 3</h3>
-                </div>
-                <div class="category-card">
-                    <img src="../images/categoria_padrao.png" alt="Categoria 4">
-                    <h3>Categoria 4</h3>
-                </div>
+            <button type="button" id="load-more-btn">Carregar mais produtos</button>
         </main>
     </div>
 
@@ -173,9 +110,6 @@ if ($result->num_rows > 0) {
             </div>
         </div>
     </footer>
-
-
-    <script src="../js/slider.js"></script>
 </body>
 
 </html>

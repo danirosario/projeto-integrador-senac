@@ -26,7 +26,7 @@
             </ul>
 
             <div class="perfil">
-                <a href="#">PERFIL</a>
+                <a href="logout.php">Logout</a>
             </div>
         </nav>
     </header>
