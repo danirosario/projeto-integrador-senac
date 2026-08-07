@@ -185,6 +185,32 @@
     background-color: white;
 }
 
+/* lista de produtos */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.section-header h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.section-header a {
+    text-decoration: none;
+    color: #2980b9;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.section-header a:hover {
+    color: #1f618d;
+    text-decoration: underline;
+}
+
 /* CARDS DOS PRODUTOS */
 
 #products-title{
@@ -257,4 +283,27 @@
 
 .product-card button:hover {
     background: #1f618d;
+}
+
+/* CATEGORIAS */
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.category-card {
+    background: white;
+    padding: 15px;
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }

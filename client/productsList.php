@@ -20,7 +20,7 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/client-styles/shop.css">
     <link rel="stylesheet" href="../css/client-styles/footer.css">
-    <title>Document</title>
+    <title>Produtos</title>
 </head>
 
 <body>
@@ -39,7 +39,7 @@ if ($result->num_rows > 0) {
             </ul>
 
             <div class="perfil">
-                <a href="logout.php">Logout</a>
+                <a href="../logout.php">Logout</a>
             </div>
         </nav>
 
@@ -52,11 +52,7 @@ if ($result->num_rows > 0) {
 
             <?php if (!empty($products)): ?>
                 <div class="product-grid">
-                    <?php
-
-                    foreach ($products as $product):
-
-                        ?>
+                    <?php foreach ($products as $product): ?>
                         <article class="product-card">
                             <img src="<?php echo htmlspecialchars($product['ImageURL']); ?>"
                                 alt="<?php echo htmlspecialchars($product['Name']); ?>">
@@ -73,9 +69,6 @@ if ($result->num_rows > 0) {
             <?php else: ?>
                 <p>Nenhum produto encontrado.</p>
             <?php endif; ?>
-
-            <br>
-            <button type="button" id="load-more-btn">Carregar mais produtos</button>
         </main>
     </div>
 

@@ -1,15 +1,26 @@
-function openModal() {
-    document.getElementById('myModal').classList.add('show');
-    document.body.classList.add('modal-open');
+// Abre o modal recebendo o ID como parâmetro
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('show');
+        document.body.classList.add('modal-open');
+    }
 }
 
-// Fecha o modal: remove a classe "show" e libera o scroll da página
-function closeModal() {
-    document.getElementById('myModal').classList.remove('show');
-    document.body.classList.remove('modal-open');
+// Fecha o modal recebendo o ID como parâmetro
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.classList.remove('modal-open');
+    }
 }
 
-// Fecha o modal ao clicar fora do conteúdo (na área escurecida)
-document.getElementById('myModal').addEventListener('click', function (e) {
-    if (e.target === this) closeModal();
+// Configura o evento de clique fora para todos os modais da página
+document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', function (e) {
+        if (e.target === this) {
+            closeModal(this.id);
+        }
+    });
 });

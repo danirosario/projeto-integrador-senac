@@ -9,6 +9,8 @@ if ($result->num_rows > 0) {
         $products[] = $row;
     }
 }
+
+$categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive = 1 ORDER BY Name");
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +41,7 @@ if ($result->num_rows > 0) {
             </ul>
 
             <div class="perfil">
-                <a href="logout.php">Logout</a>
+                <a href="../logout.php">Logout</a>
             </div>
         </nav>
 
@@ -90,10 +92,12 @@ if ($result->num_rows > 0) {
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
     <div class="content-area">
         <main class="main-content" id="produtos">
-            <div>
+
+            <div class="section-header">
                 <h1 id="products-title">Produtos</h1>
-                <a href="productsList.php">Ver todos os produtos</a>
-            </div><br>
+                <a href="productsList.php" id="ver-mais">Ver todos os produtos</a>
+            </div>
+            <br>
             <?php if (!empty($products)): ?>
                 <div class="product-grid">
                     <?php
@@ -123,22 +127,17 @@ if ($result->num_rows > 0) {
             <br>
             <h2>Categorias</h2>
             <div class="categories">
-                <div class="category-card">
-                    <img src="../images/categoria_padrao.png" alt="Categoria 1">
-                    <h3>Categoria 1</h3>
-                </div>
-                <div class="category-card">
-                    <img src="../images/categoria_padrao.png" alt="Categoria 2">
-                    <h3>Categoria 2</h3>
-                </div>
-                <div class="category-card">
-                    <img src="../images/categoria_padrao.png" alt="Categoria 3">
-                    <h3>Categoria 3</h3>
-                </div>
-                <div class="category-card">
-                    <img src="../images/categoria_padrao.png" alt="Categoria 4">
-                    <h3>Categoria 4</h3>
-                </div>
+                <?php if ($categories->num_rows > 0): ?>
+                    <?php while ($category = $categories->fetch_assoc()): ?>
+                        <div class="category-card">
+                            <img src="../images/categoria_padrao.png" alt="Categoria 1">
+                            <h3><?php echo htmlspecialchars($category['Name']); ?></h3>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <p>Nenhuma categoria encontrada.</p>
+                <?php endif; ?>
+            </div>
         </main>
     </div>
 
