@@ -125,19 +125,24 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
             <?php endif; ?>
 
             <br>
-            <h2>Categorias</h2>
-            <div class="categories">
-                <?php if ($categories->num_rows > 0): ?>
-                    <?php while ($category = $categories->fetch_assoc()): ?>
-                        <div class="category-card">
-                            <img src="../images/categoria_padrao.png" alt="Categoria 1">
-                            <h3><?php echo htmlspecialchars($category['Name']); ?></h3>
-                        </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <p>Nenhuma categoria encontrada.</p>
-                <?php endif; ?>
-            </div>
+            <section class="category-section">
+            <h2 id="category">Categorias</h2>
+                <div class="categories">
+                    <?php if ($categories->num_rows > 0): ?>
+                        <?php while ($category = $categories->fetch_assoc()): ?>
+                            <a href="productsList.php?category_id=<?php echo $category['idCategory']; ?>"
+                                class="category-card-link">
+                                <div class="category-card">
+                                    <img src="../images/categoria_padrao.png" alt="Categoria 1">
+                                    <h3><?php echo htmlspecialchars($category['Name']); ?></h3>
+                                </div>
+                            </a>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <p>Nenhuma categoria encontrada.</p>
+                    <?php endif; ?>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -159,9 +164,7 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
             <div class="footer-column social-block">
                 <h2>Siga-nos</h2>
                 <ul>
-                    <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
-                    <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
-                    <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/criarty_personalizados?igsh=MWZubnZ1MTcxZDlqcg%3D%3D" target="_blank">Instagram</a></li>
                 </ul>
             </div>
 

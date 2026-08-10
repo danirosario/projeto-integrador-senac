@@ -1,8 +1,6 @@
 .content-area {
-    padding: 40px;
     margin-left: 80px;
     margin-right: 80px;
-    text-align: center;
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
@@ -11,7 +9,6 @@
 
 /* NAVBAR */
 
-/* Navbar container layout */
 .navbar {
     display: flex;
     align-items: center;
@@ -50,7 +47,6 @@
     transition: color 0.3s ease;
 }
 
-/* Logo styling */
 .nav-logo a {
     color: #fff;
     font-size: 1.5rem;
@@ -58,15 +54,12 @@
     text-decoration: none;
 }
 
-/* Links alignment group */
 .nav-links {
     display: flex;
     list-style: none;
     gap: 1.5rem;
-    /* Creates clean gap between links */
 }
 
-/* Individual hyperlink styling */
 .nav-links a {
     color: #fff;
     text-decoration: none;
@@ -74,7 +67,6 @@
     transition: color 0.3s ease;
 }
 
-/* Interactive hover effect */
 .nav-links a:hover {
     color: #ffd700;
 }
@@ -186,6 +178,18 @@
     background-color: white;
 }
 
+/* dropdown de categorias */
+
+#category-list {
+    padding: 8px 14px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    margin-top: 75px;
+}
+
 /* lista de produtos */
 
 .section-header {
@@ -218,6 +222,7 @@
     text-align: center;
     font-size: 2rem;
     margin-bottom: 20px;
+    margin-top: 80px;
 }
 
 .product-grid {
@@ -289,23 +294,55 @@
 
 /* CATEGORIAS */
 
+.category-section {
+    padding: 40px 20px;
+}
+
+#category {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 40px; 
+}
+
 .categories {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 24px;           
     justify-content: center;
-    margin-top: 40px;
+    max-width: 1200px;       
+    margin: 0 auto;  
 }
+
 
 .category-card {
     background: white;
     padding: 15px;
-    width: 200px;
-    height: 200px;
+    width: 198px;
+    height: 198px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.category-card img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;      /* Garante que a imagem não distorça */
+    margin-bottom: 15px; 
+}
+
+.category-card h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: #444;
+    font-weight: 600;
+}
+
+.category-card-link:hover .category-card {
+    transform: translateY(-6px); 
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
 }
