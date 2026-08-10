@@ -133,7 +133,7 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
                             <a href="productsList.php?category_id=<?php echo $category['idCategory']; ?>"
                                 class="category-card-link">
                                 <div class="category-card">
-                                    <img src="../images/categoria_padrao.png" alt="Categoria 1">
+                                    <!-- <img src="../images/categoria_padrao.png" alt="Categoria 1"> -->
                                     <h3><?php echo htmlspecialchars($category['Name']); ?></h3>
                                 </div>
                             </a>
