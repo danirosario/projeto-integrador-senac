@@ -9,8 +9,8 @@
 
 .left-side {
     flex: 1; 
-    background: var(--deep-navy);
-    color: white;
+    background: var(--primary-color);
+    color: var(--neutral-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,7 +31,7 @@
 .brand h1 {
     font-size: 48px;
     margin-bottom: 20px;
-    color: #E2725B;
+    color: var(--secondary-color);
 }
 
 .brand p {
@@ -101,7 +101,7 @@
 }
 
 .input-group input:focus {
-    border-color: var(--deep-navy);
+    border-color: var(--primary-color);
     box-shadow: 0 0 5px rgba(63, 81, 181, .3);
 }
 
@@ -110,8 +110,8 @@
     padding: 12px;
     border: none;
     border-radius: 6px;
-    background: var(--deep-navy);
-    color: white;
+    background: var(--primary-color);
+    color: var(--neutral-color);
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
@@ -119,7 +119,7 @@
 }
 
 .btn-login:hover {
-    background: #131e66;
+    background: var(--primary-color-dark);
 }
 
 .footer-text {
@@ -130,7 +130,7 @@
 }
 
 .footer-text a {
-    color: var(--deep-navy);
+    color: var(--primary-color-dark);
     text-decoration: none;
     font-weight: bold;
 }

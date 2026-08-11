@@ -43,7 +43,6 @@ if ($result && $result->num_rows > 0) {
             <ul class="nav-links">
                 <li><a href="shop.php">Home</a></li>
                 <li><a href="productsList.php">Produtos</a></li>
-                <li><a href="about.php">Sobre</a></li>
                 <li><a href="#contato">Contato</a></li>
             </ul>
 
@@ -85,8 +84,8 @@ if ($result && $result->num_rows > 0) {
                                 <h3><?php echo htmlspecialchars($product['Name']); ?></h3>
                                 <h4>Descrição</h4>
                                 <p><?php echo htmlspecialchars($product['Description']); ?></p>
-                                <span class="price">R$ <?php echo number_format($product['BasePrice'], 2, ',', '.'); ?></span>
-                                <button type="button">Comprar</button>
+                                <!-- <span class="price">R$ <?php echo number_format($product['BasePrice'], 2, ',', '.'); ?></span>
+                                <button type="button">Comprar</button> -->
                             </div>
                         </article>
                     <?php endforeach; ?>

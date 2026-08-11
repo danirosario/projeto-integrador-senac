@@ -8,6 +8,7 @@
 
 :root {
     --primary-color: #51648e;
+    --primary-color-dark: #3d568f;
     --secondary-color: #dbcbe6;
     --tertiary-color: #848e51;
     --neutral-color: #F8F9FA;
@@ -76,7 +77,6 @@ body {
 
 /* CONTEÚDO PRINCIPAL */
 main {
-    padding: 40px;
     flex: 1;
 }
 
