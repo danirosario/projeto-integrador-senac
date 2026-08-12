@@ -64,7 +64,7 @@ $lowStockProducts = $conn->query("SELECT idProduct, Name, Stock, MinStock FROM p
 
     <!-- CONTENT AREA -->
     <div class="content-area">
-      <main>
+      <main class="content-main">
         <p class="welcome-text">
           Bem-vindo ao painel de administração do CriArty! Aqui você pode
           gerenciar seus produtos, pedidos e estoque.

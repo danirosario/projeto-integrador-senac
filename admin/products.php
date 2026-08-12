@@ -83,7 +83,7 @@ $products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
             </nav>
         </aside>
         <div class="content-area">
-            <main>
+            <main class="content-main">
                 <section class="registered-products">
                     <div class="section-header">
                         <h3>Produtos Cadastrados</h3>

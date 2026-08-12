@@ -8,22 +8,24 @@
 
 :root {
     --primary-color: #51648e;
-    --primary-color-dark: #3d568f;
+    --primary-color-dark: #384e81;
     --secondary-color: #dbcbe6;
+    --secondary-color-dark: #b9b0c0;
     --tertiary-color: #848e51;
     --neutral-color: #F8F9FA;
 
     --bg-main: var(--neutral-color);
     --bg-sidebar: var(--primary-color);
     --bg-card: #ffffff;
-    --text-dark: #3d568f;
+    --text-dark: #2e4375;
     --text-light: #f8f9fa;
     /*dark mode: #212529*/
 
 }
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
+    min-height: 100vh;
 }
 
 body {
@@ -101,7 +103,12 @@ h1 {
 .content-area {
     display: flex;
     flex-direction: column;
+}
+
+.content-main {
+    flex-direction: column;
     justify-content: space-between;
+    margin: 46px;
 }
 
 /* FOOTER */
@@ -112,22 +119,25 @@ footer {
     font-size: 0.9rem;
     color: #829ab1;
     border-top: 1px solid var(--border-color);
+    margin-top: auto;
 }
+
 /* RESPONSIVIDADE */
+
 @media (max-width: 768px) {
     .main-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Sidebar vai para cima ou deixa de ocupar coluna fixa */
     }
 
     .sidebar {
         padding: 20px;
     }
 
-    main {
-        padding: 20px;
+    .content-main {
+        margin: 20px; 
     }
 
-    .charts-section {
-        grid-template-columns: 1fr;
+    main {
+        padding: 0;
     }
 }

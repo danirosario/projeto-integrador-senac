@@ -5,6 +5,7 @@
     display: flex;
     gap: 16px;
     justify-content: center;
+    margin-bottom: 68px;
 }
 
 .aboutUs-area {
@@ -23,35 +24,60 @@
 }
 
 .about-us {
-    padding: 10px;
-    border: 1px solid #ccc;
-    width: 25%;
-    height: 600px;
-    background-color: #ccc;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 30px;
+    justify-content: center; 
+}
+
+.about-us-card {
+    padding: 14px;
+    width: calc(33% - 18px);
+    min-height: 500px;
+    background-color: var(--secondary-color);
     display: flex;
     flex-direction: column;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     justify-content: center;
+    box-sizing: border-box;
 }
 
 .about-title {
     text-align: center;
     align-items: center;
     justify-content: center;
+    color: var(--text-dark);
 }
 
 .about-text {
-    padding: 40px;
+    padding: 20px;
     text-align: justify;
     font-size: 16px;
-    line-height: 1.5;
+    color: var(--text-dark);
 }
 
-.about-us-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-top: 30px;
-    justify-content: space-between;
+/* RESPONSIVIDADE */
+
+@media (max-width: 1024px) {
+    .about-us-card {
+        width: calc(50% - 16px);
+    }
+}
+
+@media (max-width: 768px) {
+    .about-us-card {
+        width: 100%;
+        min-height: auto;
+    }
+    
+    .about-content {
+        padding: 0 16px;
+        flex-direction: column;
+    }
+
+    .about-text {
+        padding: 15px;
+    }
 }

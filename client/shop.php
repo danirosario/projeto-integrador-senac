@@ -176,9 +176,9 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
             </p>
             <br>
 
-            <div class="about-us-cards">
+            <div class="about-us">
 
-                <div class="about-us">
+                <div class="about-us-card">
                     <h2>Missão</h2>
                     <div class="about-text">
                         <p> Transformar ideias e sentimentos em produtos exclusivos, oferecendo soluções personalizadas
@@ -190,7 +190,7 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
 
                 <br>
 
-                <div class="about-us">
+                <div class="about-us-card">
                     <h2>Visão</h2>
                     <div class="about-text">
                         <p>Ser referência no mercado de produtos personalizados, reconhecida pela excelência criativa,
@@ -202,7 +202,7 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
 
                 <br>
 
-                <div class="about-us">
+                <div class="about-us-card">
                     <h2>Valores</h2>
                     <div class="about-text">
                         <p><strong>Criatividade Autêntica:</strong> Valorizar o novo e o original em cada
