@@ -1,6 +1,11 @@
 <?php
 require_once("../config.php");
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+
 $result = $conn->query("SELECT Name, BasePrice, Description, ImageURL FROM product WHERE isActive = 1");
 
 $products = [];
@@ -11,6 +16,13 @@ if ($result->num_rows > 0) {
 }
 
 $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive = 1 ORDER BY Name");
+
+if ($categories->num_rows > 0) {
+    while ($row = $categories->fetch_assoc()) {
+        $cards[] = $row;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -31,20 +43,27 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
     <header>
         <nav class="navbar">
             <div class="nav-logo">
-                <a href="#">Logo</a>
+                <a href="shop.php">Logo</a>
             </div>
 
             <ul class="nav-links">
                 <li><a href="shop.php">Home</a></li>
                 <li><a href="productsList.php">Produtos</a></li>
                 <li><a href="#contato">Contato</a></li>
+
+                <?php if (!empty($_SESSION['user_id'])): ?>
+                    <li><a href="cart.php">Meu Carrinho</a></li>
+                <?php endif; ?>
             </ul>
 
             <div class="perfil">
-                <a href="../logout.php">Logout</a>
+                <?php if (!empty($_SESSION['user_id'])): ?>
+                    <a href="../logout.php">Logout</a>
+                <?php else: ?>
+                    <a href="../login.php">Login</a>
+                <?php endif; ?>
             </div>
         </nav>
-
 
         <!-- CARROSSEL -->
         <div class="slider">
@@ -90,7 +109,7 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
     </header>
 
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
-    <div class="content-area">
+    <div class="content-area-shop">
         <main class="main-content" id="produtos">
 
             <div class="section-header">
@@ -127,22 +146,30 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
             <br>
             <section class="category-section">
                 <h2 id="category">Busque por categorias</h2>
-                <div class="categories">
-                    <?php if ($categories->num_rows > 0): ?>
-                        <?php while ($category = $categories->fetch_assoc()): ?>
-                            <a href="productsList.php?category_id=<?php echo $category['idCategory']; ?>"
-                                class="category-card-link">
-                                <div class="category-card">
-                                    <!-- <img src="../images/categoria_padrao.png" alt="Categoria 1"> -->
-                                    <h3><?php echo htmlspecialchars($category['Name']); ?></h3>
-                                </div>
-                            </a>
-                        <?php endwhile; ?>
-                    <?php else: ?>
-                        <p>Nenhuma categoria encontrada.</p>
-                    <?php endif; ?>
+
+                <div class="carrossel-wrapper">
+                    <button class="btn-carrossel btn-prev" aria-label="Anterior">&#10094;</button>
+                    <div class="carrossel-container">
+                        <div class="categories-cards">
+                            <?php if (!empty($cards)): ?>
+                                <?php foreach ($cards as $card): ?>
+                                    <a href="productsList.php?category_id=<?php echo $card['idCategory']; ?>"
+                                        class="category-card-link">
+                                        <div class="category-card">
+                                            <h3><?php echo $card['Name']; ?></h3>
+                                        </div>
+                                    </a>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <p>Nenhuma categoria encontrada.</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <button class="btn-carrossel btn-next" aria-label="Próximo">&#10095;</button>
                 </div>
             </section>
+
+
         </main>
     </div>
 
@@ -255,6 +282,7 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
 
 
     <script src="../js/slider.js"></script>
+    <script src="../js/carrossel.js"></script>
 </body>
 
 </html>

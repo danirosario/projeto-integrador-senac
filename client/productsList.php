@@ -1,6 +1,10 @@
 <?php
 require_once("../config.php");
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $id_category = filter_input(INPUT_GET, "category_id", FILTER_VALIDATE_INT);
 
 if ($id_category) {
@@ -44,16 +48,24 @@ if ($result && $result->num_rows > 0) {
                 <li><a href="shop.php">Home</a></li>
                 <li><a href="productsList.php">Produtos</a></li>
                 <li><a href="#contato">Contato</a></li>
+
+                <?php if (!empty($_SESSION['user_id'])): ?>
+                    <li><a href="cart.php">Meu Carrinho</a></li>
+                <?php endif; ?>
             </ul>
 
             <div class="perfil">
-                <a href="../logout.php">Logout</a>
+                <?php if (!empty($_SESSION['user_id'])): ?>
+                    <a href="../logout.php">Logout</a>
+                <?php else: ?>
+                    <a href="../login.php">Login</a>
+                <?php endif; ?>
             </div>
         </nav>
     </header>
 
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
-    <div class="content-area">
+    <div class="content-area-shop">
         <main class="main-content" id="produtos">
             <div class="section-header">
                 <h1 id="products-title">Produtos</h1>
