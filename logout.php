@@ -9,4 +9,4 @@ require_once('config.php');
 session_destroy();
 
 // Redireciona para a página de login
-header("Location: login.php");
+header("Refresh: 1; url=client/shop.php");

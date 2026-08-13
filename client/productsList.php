@@ -47,11 +47,10 @@ if ($result && $result->num_rows > 0) {
             <ul class="nav-links">
                 <li><a href="shop.php">Home</a></li>
                 <li><a href="productsList.php">Produtos</a></li>
-                <li><a href="#contato">Contato</a></li>
-
                 <?php if (!empty($_SESSION['user_id'])): ?>
                     <li><a href="cart.php">Meu Carrinho</a></li>
                 <?php endif; ?>
+                <li><a href="#contato">Contato</a></li>
             </ul>
 
             <div class="perfil">
