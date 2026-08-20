@@ -5,8 +5,16 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+$id_category = filter_input(INPUT_GET, "category_id", FILTER_VALIDATE_INT);
 
-$result = $conn->query("SELECT Name, BasePrice, Description, ImageURL FROM product WHERE isActive = 1");
+if ($id_category) {
+    $stmt = $conn->prepare("SELECT idProduct, Name, BasePrice, Description, ImageURL FROM product WHERE isActive = 1 AND Category_idCategory = ?");
+    $stmt->bind_param("i", $id_category);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    $result = $conn->query("SELECT idProduct, Name, BasePrice, Description, ImageURL FROM product WHERE isActive = 1");
+}
 
 $products = [];
 if ($result->num_rows > 0) {
@@ -116,6 +124,13 @@ if ($categories->num_rows > 0) {
                 <a href="productsList.php" id="ver-mais">Ver todos os produtos</a>
             </div>
             <br>
+            <?php if (isset($_SESSION['cart_message'])): ?>
+                <p
+                    style="background-color: #d4edda; color: #155724; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+                    <?php echo $_SESSION['cart_message']; ?>
+                </p>
+                <?php unset($_SESSION['cart_message']); ?>
+            <?php endif; ?>
             <?php if (!empty($products)): ?>
                 <div class="product-grid">
                     <?php
@@ -126,14 +141,16 @@ if ($categories->num_rows > 0) {
                         $count++;
                         ?>
                         <article class="product-card">
-                            <img src="<?php echo htmlspecialchars($product['ImageURL']); ?>"
-                                alt="<?php echo htmlspecialchars($product['Name']); ?>">
+                            <img src="<?php echo $product['ImageURL']; ?>" alt="<?php echo $product['Name']; ?>">
                             <div class="card-content">
-                                <h3><?php echo htmlspecialchars($product['Name']); ?></h3>
+                                <h3><?php echo $product['Name']; ?></h3>
                                 <h4>Descrição</h4>
-                                <p><?php echo htmlspecialchars($product['Description']); ?></p>
-                                <!-- <span class="price">R$ <?php echo number_format($product['BasePrice'], 2, ',', '.'); ?></span>
-                                <button type="button">Comprar</button> -->
+                                <p><?php echo $product['Description']; ?></p>
+                                <span class="price">R$ <?php echo number_format($product['BasePrice'], 2, ',', '.'); ?></span>
+                                <form action="add_to_cart.php" method="POST">
+                                    <input type="hidden" name="product_id" value="<?php echo (int) $product['idProduct']; ?>">
+                                    <button type="submit" class="btn-comprar">Adicionar ao carrinho</button>
+                                </form>
                             </div>
                         </article>
                     <?php endforeach; ?>

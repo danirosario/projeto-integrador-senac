@@ -1,39 +1,48 @@
-<?php
-require_once("config.php");
+<?php 
+require_once('config.php'); 
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+if (session_status() === PHP_SESSION_NONE) { 
+    session_start(); 
+} 
+
+$erro = ""; 
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email']) && isset($_POST['password'])) { 
+    
+    $email = trim($_POST['email']); 
+    $password = $_POST['password']; 
+    
+    $sql = "SELECT u.idUser, u.passwordHash, r.name AS role_name 
+            FROM user u 
+            INNER JOIN role r ON u.Role_idRole = r.idRole 
+            WHERE u.email = ?";
+            
+    $stmt = $conn->prepare($sql); 
+    $stmt->bind_param("s", $email); 
+    $stmt->execute(); 
+    $result = $stmt->get_result(); 
+    
+    if ($result->num_rows > 0) { 
+        $row = $result->fetch_assoc(); 
+        $hashed_password_from_db = $row['passwordHash']; 
+        
+        if (password_verify($password, $hashed_password_from_db)) { 
+            
+            $_SESSION['user_id'] = $row['idUser']; 
+            $_SESSION['user_role'] = $row['role_name']; 
+            
+            if ($row['role_name'] === 'admin') { 
+                header("Location: admin/dashboard.php");
+            } else {
+                header("Location: client/shop.php");
+            }
+            exit(); 
+        } 
+    } 
+    
+    $erro = "E-mail ou senha inválidos."; 
+    $stmt->close(); 
 }
-
-$erro = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["email"]) && isset($_POST["password"])) {
-    $email = trim($_POST["email"]);
-    $password = $_POST["password"];
-
-    $stmt = $conn->prepare("SELECT idUser, passwordHash FROM user WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-
-        $hashed_password_from_db = $row['passwordHash'];
-
-        if (password_verify($password, $hashed_password_from_db)) {
-            $_SESSION['user_id'] = $row['idUser'];
-            header("Location: client/shop.php");
-            exit();
-        } else {
-            $erro = "E-mail ou senha inválidos.";
-        }
-    } else {
-        $erro = "E-mail ou senha inválidos.";
-    }
-    $stmt->close();
-}
-
 ?>
 
 <!DOCTYPE html>
