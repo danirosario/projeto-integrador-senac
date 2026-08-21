@@ -3,24 +3,51 @@ require_once('../config.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] === 'add_product') {
-        $name = trim($_POST['product-name'] ?? '');
-        $categoryId = (int) ($_POST['category'] ?? 0);
+        $name        = trim($_POST['product-name'] ?? '');
+        $categoryId  = (int) ($_POST['category'] ?? 0);
         $description = trim($_POST['description'] ?? '');
-        $price = (float) ($_POST['price'] ?? 0);
-        $imageUrl = trim($_POST['image-url'] ?? '');
-        $stock = (int) ($_POST['stock'] ?? 0);
-        $minStock = (int) ($_POST['minStock'] ?? 0);
+        $price       = (float) ($_POST['price'] ?? 0);
+        $stock       = (int) ($_POST['stock'] ?? 0);
+        $minStock    = (int) ($_POST['minStock'] ?? 0);
+
+        $imageUrl = '';
+
+        if (isset($_FILES['image-url']) && $_FILES['image-url']['error'] === UPLOAD_ERR_OK) {
+            $fileTmpPath       = $_FILES['image-url']['tmp_name'];
+            $fileName          = $_FILES['image-url']['name'];
+            $fileExtension     = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+
+            if (in_array($fileExtension, $allowedExtensions)) {
+                $newFileName   = md5(time() . $fileName) . '.' . $fileExtension;
+                $uploadFileDir = '../images/';
+
+                if (!is_dir($uploadFileDir)) {
+                    mkdir($uploadFileDir, 0755, true);
+                }
+
+                $dest_path = $uploadFileDir . $newFileName;
+
+                if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                    $imageUrl = 'images/' . $newFileName;
+                } else {
+                    die("Erro ao mover o arquivo.");
+                }
+            } else {
+                die("Formato de imagem inválido. Apenas JPG, JPEG, PNG e WEBP são permitidos.");
+            }
+        }
 
         if ($name !== '' && $categoryId > 0) {
             $stmt = $conn->prepare("INSERT INTO product (Name, BasePrice, Stock, MinStock, Description, ImageURL, Category_idCategory) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sdiisss", $name, $price, $stock, $minStock, $description, $imageUrl, $categoryId);
+            $stmt->bind_param("sdiissi", $name, $price, $stock, $minStock, $description, $imageUrl, $categoryId);
 
             if ($stmt->execute()) {
                 $stmt->close();
                 header("Location: products.php");
                 exit;
             } else {
-                die("Erro ao executar o INSERT: " . $stmt->error);
+                die("Erro: " . $stmt->error);
             }
         } else {
             die("Validação falhou: Verifique se o nome e a categoria foram preenchidos.");
@@ -51,8 +78,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 // BUSCAR CATEGORIAS
 $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive = 1 ORDER BY Name");
 
-// BUSCAR PRODUTOS CADASTRADOS
-$products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.Description, c.Name AS CategoryName FROM product p JOIN category c ON c.idCategory = p.Category_idCategory WHERE p.isActive = 1 ORDER BY p.idProduct DESC");
+$products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.Description, p.ImageURL, c.Name 
+                          AS CategoryName FROM product p 
+                          JOIN category c ON c.idCategory = p.Category_idCategory WHERE p.isActive = 1 
+                          ORDER BY p.idProduct DESC");
 ?>
 
 <!doctype html>
@@ -91,11 +120,12 @@ $products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
                         <div>
                             <button type="button" class="btn btn-info" onclick="openModal('myModal2')"
                                 style="margin-right: 10px;">+ Adicionar Categoria</button>
-                            <button type="button" class="btn btn-info" onclick="openModal('myModal')">+ Adicionar Produto</button>
+                            <button type="button" class="btn btn-info" onclick="openModal('myModal')">+ Adicionar
+                                Produto</button>
                         </div>
 
                     </div>
-                    
+
                     <div class="table-responsive">
                         <table class="products-table">
                             <thead>
@@ -140,7 +170,7 @@ $products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
                                 <h4 class="modal-title">Adicionar Novo Produto</h4>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" action="products.php">
+                                <form method="POST" action="products.php" enctype="multipart/form-data">
                                     <input type="hidden" name="action" value="add_product">
                                     <div class="form-group">
                                         <label for="product-name">Nome do Produto</label>
@@ -171,9 +201,9 @@ $products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
                                             placeholder="Preço" required />
                                     </div>
                                     <div class="form-group">
-                                        <label for="image-url">URL da Imagem</label>
-                                        <input type="text" class="form-control" id="image-url" name="image-url"
-                                            placeholder="URL da Imagem" />
+                                        <label for="image-url">Imagem do Produto</label>
+                                        <input type="file" class="form-control" id="image-url" name="image-url"
+                                            accept="image/*" />
                                     </div>
                                     <div class="form-group">
                                         <label for="stock">Quantidade em Estoque</label>

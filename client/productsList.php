@@ -1,8 +1,6 @@
 <?php
 require_once("../config.php");
 
-
-
 $id_category = filter_input(INPUT_GET, "category_id", FILTER_VALIDATE_INT);
 
 if ($id_category) {
@@ -35,6 +33,31 @@ if ($result && $result->num_rows > 0) {
 </head>
 
 <body>
+    <?php if (isset($_SESSION['cart_message'])): ?>
+        <div id="cart-notification" class="cart-alert">
+            <span class="cart-alert-text"><?php echo $_SESSION['cart_message']; ?></span>
+
+            <!-- Botão de Fechar -->
+            <button class="cart-alert-close" onclick="fecharNotificacao()">&times;</button>
+        </div>
+
+        <script>
+            function fecharNotificacao() {
+                var notification = document.getElementById('cart-notification');
+                if (notification) {
+                    notification.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translate(-50%, -20px)';
+                    setTimeout(function () {
+                        notification.remove();
+                    }, 500);
+                }
+            }
+            setTimeout(fecharNotificacao, 4000);
+        </script>
+
+        <?php unset($_SESSION['cart_message']); ?>
+    <?php endif; ?>
     <!-- NAVBAR -->
     <header>
         <nav class="navbar">
@@ -83,19 +106,17 @@ if ($result && $result->num_rows > 0) {
                 </div>
             </div>
 
-            <?php if (isset($_SESSION['cart_message'])): ?>
-                <p
-                    style="background-color: #d4edda; color: #155724; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
-                    <?php echo $_SESSION['cart_message']; ?>
-                </p>
-                <?php unset($_SESSION['cart_message']); ?>
-            <?php endif; ?>
-
             <?php if (!empty($products)): ?>
                 <div class="product-grid">
                     <?php foreach ($products as $product): ?>
                         <article class="product-card">
-                            <img src="<?php echo $product['ImageURL']; ?>" alt="<?php echo $product['Name']; ?>">
+                            <?php
+                            $imagePath = !empty($product['ImageURL']) ? '../' . $product['ImageURL'] : '../images/slide_padrao.png';
+                            ?>
+
+                            <div class="product-image">
+                                <img src="<?php echo $imagePath; ?>" alt="<?php echo $product['Name']; ?>">
+                            </div>
                             <div class="card-content">
                                 <h3><?php echo $product['Name']; ?></h3>
                                 <h4>Descrição</h4>

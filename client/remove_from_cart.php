@@ -1,5 +1,5 @@
 <?php
-
+require_once("../config.php");
 
 $product_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
