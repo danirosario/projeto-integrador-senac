@@ -1,10 +1,6 @@
 <?php
 require_once("../config.php");
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 if (!isset($_SESSION['user_id'])) {
     echo "<script>
         alert('Faça login na sua conta ou cadastre-se para adicionar os produtos ao carrinho');

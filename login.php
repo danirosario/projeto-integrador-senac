@@ -1,10 +1,6 @@
 <?php 
 require_once('config.php'); 
 
-if (session_status() === PHP_SESSION_NONE) { 
-    session_start(); 
-} 
-
 $erro = ""; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email']) && isset($_POST['password'])) { 

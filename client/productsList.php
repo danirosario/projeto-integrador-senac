@@ -1,9 +1,7 @@
 <?php
 require_once("../config.php");
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+
 
 $id_category = filter_input(INPUT_GET, "category_id", FILTER_VALIDATE_INT);
 

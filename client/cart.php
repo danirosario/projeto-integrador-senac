@@ -1,10 +1,6 @@
 <?php 
 require_once('../config.php'); 
 
-if (session_status() === PHP_SESSION_NONE) { 
-    session_start(); 
-} 
-
 $cart_products = []; 
 $total_price   = 0.0; 
 
