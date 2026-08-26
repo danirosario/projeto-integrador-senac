@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
     <header>
         <nav class="navbar">
             <div class="nav-logo">
-                <a href="#">Logo</a>
+                <a href="shop.php">Logo</a>
             </div>
 
             <ul class="nav-links">
@@ -47,7 +47,7 @@ if ($result->num_rows > 0) {
 
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
     <div class="content-area">
-        <main class="main-content" id="produtos">
+        <main class="main-content" id="produtos"><br>
             <h1 id="products-title">Produtos</h1>
 
             <?php if (!empty($products)): ?>

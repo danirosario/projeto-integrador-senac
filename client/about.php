@@ -15,12 +15,12 @@
     <header>
         <nav class="navbar">
             <div class="nav-logo">
-                <a href="#">Logo</a>
+                <a href="shop.php">Logo</a>
             </div>
 
             <ul class="nav-links">
                 <li><a href="shop.php">Home</a></li>
-                <li><a href="shop.php">Produtos</a></li>
+                <li><a href="productsList.php">Produtos</a></li>
                 <li><a href="about.php">Sobre</a></li>
                 <li><a href="#contato">Contato</a></li>
             </ul>

@@ -58,14 +58,12 @@
     text-decoration: none;
 }
 
-/* Links alignment group */
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 1.5rem; /* Creates clean gap between links */
+    gap: 1.5rem;
 }
 
-/* Individual hyperlink styling */
 .nav-links a {
     color: #fff;
     text-decoration: none;
@@ -73,7 +71,6 @@
     transition: color 0.3s ease;
 }
 
-/* Interactive hover effect */
 .nav-links a:hover {
     color: #ffd700;
 }
@@ -256,8 +253,7 @@
 }
 
 .card-content {
-    flex-grow: 1;
-    /* Faz esse bloco ocupar todo o espaço restante empurrando o preço/botão */
+    flex-grow: 1; /* Faz esse bloco ocupar todo o espaço restante empurrando o preço/botão */
     display: flex;
     flex-direction: column;
 }
