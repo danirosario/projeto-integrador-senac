@@ -57,7 +57,7 @@ $sixMonthsRevenue = $conn->query("SELECT DATE_FORMAT(OrderDate, '%Y-%m') AS Mont
 
         <!-- CONTENT AREA -->
         <div class="content-area">
-            <main>
+            <main class="content-main">
                 <p class="welcome-text">Relatórios mensais</p>
 
                 <div class="reports-grid">

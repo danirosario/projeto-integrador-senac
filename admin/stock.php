@@ -142,7 +142,7 @@ $transactionHistory = $conn->query("SELECT p.Name, s.reason, s.quantityChange, s
 
         <!-- CONTENT AREA -->
         <div class="content-area">
-            <main>
+            <main class="content-main">
                 <p class="welcome-text">Gerenciamento de Estoque</p>
 
                 <!-- ESTOQUE -->
@@ -191,7 +191,7 @@ $transactionHistory = $conn->query("SELECT p.Name, s.reason, s.quantityChange, s
                         </tbody>
                     </table>
                 </section>
-
+                <br><br>
                 <!-- HISTÓRICO DE MOVIMENTAÇÕES -->
                 <div class="history-header">
                     <h2>Histórico de Movimentações</h2>

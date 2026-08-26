@@ -56,7 +56,7 @@ $orders = $conn->query("SELECT o.idOrder, o.OrderDate, o.Status, o.PaymentStatus
 
         <!-- CONTENT AREA -->
         <div class="content-area">
-            <main>
+            <main class="content-main">
                 <p class="welcome-text">
                     Gerenciamento de Pedidos
                 </p>

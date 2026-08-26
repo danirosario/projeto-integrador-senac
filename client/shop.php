@@ -1,7 +1,16 @@
 <?php
 require_once("../config.php");
 
-$result = $conn->query("SELECT Name, BasePrice, Description, ImageURL FROM product WHERE isActive = 1");
+$id_category = filter_input(INPUT_GET, "category_id", FILTER_VALIDATE_INT);
+
+if ($id_category) {
+    $stmt = $conn->prepare("SELECT idProduct, Name, BasePrice, Description, ImageURL FROM product WHERE isActive = 1 AND Category_idCategory = ?");
+    $stmt->bind_param("i", $id_category);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    $result = $conn->query("SELECT idProduct, Name, BasePrice, Description, ImageURL FROM product WHERE isActive = 1");
+}
 
 $products = [];
 if ($result->num_rows > 0) {
@@ -11,6 +20,13 @@ if ($result->num_rows > 0) {
 }
 
 $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive = 1 ORDER BY Name");
+
+if ($categories->num_rows > 0) {
+    while ($row = $categories->fetch_assoc()) {
+        $cards[] = $row;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -20,12 +36,39 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/client-styles/about.css">
     <link rel="stylesheet" href="../css/client-styles/shop.css">
     <link rel="stylesheet" href="../css/client-styles/footer.css">
     <title>CriArty | Produtos</title>
 </head>
 
 <body>
+    <?php if (isset($_SESSION['cart_message'])): ?>
+        <div id="cart-notification" class="cart-alert">
+            <span class="cart-alert-text"><?php echo $_SESSION['cart_message']; ?></span>
+
+            <!-- Botão de Fechar -->
+            <button class="cart-alert-close" onclick="fecharNotificacao()">&times;</button>
+        </div>
+
+        <script>
+            function fecharNotificacao() {
+                var notification = document.getElementById('cart-notification');
+                if (notification) {
+                    notification.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translate(-50%, -20px)';
+                    setTimeout(function () {
+                        notification.remove();
+                    }, 500);
+                }
+            }
+            setTimeout(fecharNotificacao, 4000);
+        </script>
+
+        <?php unset($_SESSION['cart_message']); ?>
+    <?php endif; ?>
+
     <!-- NAVBAR -->
     <header>
         <nav class="navbar">
@@ -36,15 +79,20 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
             <ul class="nav-links">
                 <li><a href="shop.php">Home</a></li>
                 <li><a href="productsList.php">Produtos</a></li>
-                <li><a href="about.php">Sobre</a></li>
+                <?php if (!empty($_SESSION['user_id'])): ?>
+                    <li><a href="cart.php">Meu Carrinho</a></li>
+                <?php endif; ?>
                 <li><a href="#contato">Contato</a></li>
             </ul>
 
             <div class="perfil">
-                <a href="../logout.php">Logout</a>
+                <?php if (!empty($_SESSION['user_id'])): ?>
+                    <a href="../logout.php">Logout</a>
+                <?php else: ?>
+                    <a href="../login.php">Login</a>
+                <?php endif; ?>
             </div>
         </nav>
-
 
         <!-- CARROSSEL -->
         <div class="slider">
@@ -90,14 +138,15 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
     </header>
 
     <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
-    <div class="content-area">
+    <div class="content-area-shop">
         <main class="main-content" id="produtos">
 
             <div class="section-header">
-                <h1 id="products-title">Produtos</h1>
+                <h1 id="products-title">Conheça nossos produtos</h1>
                 <a href="productsList.php" id="ver-mais">Ver todos os produtos</a>
             </div>
             <br>
+
             <?php if (!empty($products)): ?>
                 <div class="product-grid">
                     <?php
@@ -108,14 +157,23 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
                         $count++;
                         ?>
                         <article class="product-card">
-                            <img src="<?php echo htmlspecialchars($product['ImageURL']); ?>"
-                                alt="<?php echo htmlspecialchars($product['Name']); ?>">
+                            <?php
+                            $imagePath = !empty($product['ImageURL']) ? '../' . $product['ImageURL'] : '../images/';
+                            ?>
+
+                            <div class="product-image">
+                                <img src="<?php echo $imagePath; ?>"
+                                    alt="<?php echo $product['Name']; ?>">
+                            </div>
                             <div class="card-content">
-                                <h3><?php echo htmlspecialchars($product['Name']); ?></h3>
+                                <h3><?php echo $product['Name']; ?></h3>
                                 <h4>Descrição</h4>
-                                <p><?php echo htmlspecialchars($product['Description']); ?></p>
+                                <p><?php echo $product['Description']; ?></p>
                                 <span class="price">R$ <?php echo number_format($product['BasePrice'], 2, ',', '.'); ?></span>
-                                <button type="button">Comprar</button>
+                                <form action="add_to_cart.php" method="POST">
+                                    <input type="hidden" name="product_id" value="<?php echo (int) $product['idProduct']; ?>">
+                                    <button type="submit" class="btn-comprar">Adicionar ao carrinho</button>
+                                </form>
                             </div>
                         </article>
                     <?php endforeach; ?>
@@ -125,20 +183,109 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
             <?php endif; ?>
 
             <br>
-            <h2>Categorias</h2>
-            <div class="categories">
-                <?php if ($categories->num_rows > 0): ?>
-                    <?php while ($category = $categories->fetch_assoc()): ?>
-                        <div class="category-card">
-                            <img src="../images/categoria_padrao.png" alt="Categoria 1">
-                            <h3><?php echo htmlspecialchars($category['Name']); ?></h3>
+            <section class="category-section">
+                <h2 id="category">Busque por categorias</h2>
+
+                <div class="carrossel-wrapper">
+                    <button class="btn-carrossel btn-prev" aria-label="Anterior">&#10094;</button>
+                    <div class="carrossel-container">
+                        <div class="categories-cards">
+                            <?php if (!empty($cards)): ?>
+                                <?php foreach ($cards as $card): ?>
+                                    <a href="productsList.php?category_id=<?php echo $card['idCategory']; ?>"
+                                        class="category-card-link">
+                                        <div class="category-card">
+                                            <h3><?php echo $card['Name']; ?></h3>
+                                        </div>
+                                    </a>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <p>Nenhuma categoria encontrada.</p>
+                            <?php endif; ?>
                         </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <p>Nenhuma categoria encontrada.</p>
-                <?php endif; ?>
-            </div>
+                    </div>
+                    <button class="btn-carrossel btn-next" aria-label="Próximo">&#10095;</button>
+                </div>
+            </section>
+
+
         </main>
+    </div>
+
+    <div class="about-content">
+        <article class="aboutUs-area">
+            <div class="about-title">
+                <h1>Sobre Nós</h1>
+            </div>
+            <p id="about-us">A <strong>CriArty</strong> nasceu do desejo profundo de resgatar o valor emocional que os
+                objetos do dia a
+                dia podem carregar. Em um mundo cada vez mais padronizado e acelerado, a empresa foi fundada para ser um
+                respiro de originalidade: um espaço onde o trabalho artesanal e o design intencional se encontram para
+                dar vida a histórias reais. <br><br>
+
+                <strong>O Motivo e a Essência</strong><br>
+                O grande impulsionador da CriArty é a convicção de que nenhum presente ou item pessoal deve ser "apenas
+                mais um". A marca surgiu ao perceber que as pessoas não buscam apenas produtos, mas sim formas de
+                eternizar sentimentos, homenagear quem amam ou expressar sua própria identidade. Cada projeto começa com
+                uma escuta atenta, entendendo que por trás de cada pedido existe uma conquista, um afeto ou uma
+                celebração.<br><br>
+
+                <strong>O Processo Criativo e o Fazer Manual</strong><br>
+                Diferente da produção em massa, o processo de criação na CriArty combina precisão técnica com o capricho
+                manual. A empresa equilibra inovação e dedicação artesanal, garantindo que o resultado final não seja
+                apenas bonito, mas impecável em acabamento e durabilidade.<br><br>
+
+                <strong>O Compromisso</strong><br>
+                Mais do que entregar personalizados, a CriArty constrói conexões. Com transparência do primeiro
+                atendimento à entrega final, o objetivo é garantir que a experiência de idealizar um produto seja tão
+                especial quanto o momento de recebê-lo.
+            </p>
+            <br>
+
+            <div class="about-us">
+
+                <div class="about-us-card">
+                    <h2>Missão</h2>
+                    <div class="about-text">
+                        <p> Transformar ideias e sentimentos em produtos exclusivos, oferecendo soluções personalizadas
+                            que celebram a individualidade de cada cliente e tornam momentos comuns em memórias
+                            inesquecíveis.
+                        </p>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="about-us-card">
+                    <h2>Visão</h2>
+                    <div class="about-text">
+                        <p>Ser referência no mercado de produtos personalizados, reconhecida pela excelência criativa,
+                            qualidade impecável e pela capacidade de conectar pessoas através da arte e do design.
+                        </p>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="about-us-card">
+                    <h2>Valores</h2>
+                    <div class="about-text">
+                        <p><strong>Criatividade Autêntica:</strong> Valorizar o novo e o original em cada
+                            detalhe.<br><br>
+                            <strong>Foco no Cliente:</strong> Entender que cada pedido carrega uma história
+                            única.<br><br>
+                            <strong>Qualidade e Capricho:</strong> Entrega de produtos feitos com precisão e cuidado
+                            artesanal.<br><br>
+                            <strong>Comprometimento:</strong> Respeito a prazos e transparência em todo o processo de
+                            criação.<br><br>
+                            <strong>Paixão pelo que faz:</strong> Acreditar que o trabalho manual e personalizado agrega
+                            valor emocional.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </article>
     </div>
 
     <footer id="contato">
@@ -159,9 +306,8 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
             <div class="footer-column social-block">
                 <h2>Siga-nos</h2>
                 <ul>
-                    <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
-                    <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
-                    <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/criarty_personalizados?igsh=MWZubnZ1MTcxZDlqcg%3D%3D"
+                            target="_blank">Instagram</a></li>
                 </ul>
             </div>
 
@@ -175,6 +321,7 @@ $categories = $conn->query("SELECT idCategory, Name FROM category WHERE isActive
 
 
     <script src="../js/slider.js"></script>
+    <script src="../js/carrossel.js"></script>
 </body>
 
 </html>

@@ -6,6 +6,7 @@
     margin-bottom: 20px;
     border: 1px solid var(--border-color);
     box-shadow: 0 4px 4px rgba(28, 58, 90, 0.1);
+    overflow-x: auto;
 }
 
 .product-card {
@@ -26,6 +27,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
+    
 }
 /* MODAL */
 
@@ -49,7 +51,7 @@
 }
 
 .modal-content {
-    background: var(--bg-card);
+    background: var(--neutral-color);
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
     padding: 20px;
@@ -59,14 +61,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--primary-color);
     padding-bottom: 15px;
     margin-bottom: 15px;
 }
 
 .modal-title {
     margin: 0;
-    color: var(--deep-navy);
+    color: var(--primary-color-dark);
     font-size: 1.3rem;
 }
 
@@ -76,11 +78,11 @@
     font-size: 1.5rem;
     line-height: 1;
     cursor: pointer;
-    color: #999;
+    color: var(--primary-color-dark);
 }
 
 .close:hover {
-    color: var(--terracotta-orange);
+    color: var(--primary-color-dark);
 }
 
 .modal-footer {
@@ -88,6 +90,11 @@
     justify-content: flex-end;
     gap: 10px;
     padding-top: 15px;
+}
+
+#category{
+    background-color: #fff;
+    color: #7a7979;
 }
 
 /* Trava o scroll do body enquanto o modal está aberto */
@@ -107,13 +114,13 @@ body.modal-open {
 }
 
 .btn-default {
-    background: #eee;
+    background: var(--secondary-color);
     color: #333;
 }
 
 .btn-info {
-    background: var(--deep-navy);
-    color: #fff;
+    background: var(--secondary-color);
+    color: #000000;
 }
 
 /* FORMULÁRIO */
@@ -143,14 +150,14 @@ body.modal-open {
 
 .modal-body .form-control:focus {
     border-color: var(--terracotta-orange);
-    box-shadow: 0 0 0 2px rgba(221, 106, 83, 0.2);
+    box-shadow: 0 0 0 2px rgba(104, 83, 221, 0.2);
     outline: none;
 }
 
 .btn-success {
-    background-color: var(--terracotta-orange);
-    border-color: var(--terracotta-orange);
-    color: #fff;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-light);
     font-weight: 600;
     padding: 10px 20px;
     transition: background-color 0.2s;
@@ -158,8 +165,8 @@ body.modal-open {
 
 .btn-success:hover,
 .btn-success:focus {
-    background-color: #dd6a53;
-    border-color: #dd6a53;
+    background-color: var(--primary-color-dark);
+    border-color: var(--primary-color-dark);
 }
 
 /* TABELA DE PRODUTOS*/
@@ -212,4 +219,31 @@ body.modal-open {
 .btn-delete:hover {
     background-color: #ef4444;
     color: #fff;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 768px) {
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .section-header div {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .section-header .btn {
+        width: 100%;
+        margin-right: 0 !important;
+        text-align: center;
+    }
+
+    .modal-dialog {
+        margin: 20px auto;
+        max-width: 90%;
+    }
 }
