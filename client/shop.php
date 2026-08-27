@@ -79,9 +79,11 @@ if ($categories->num_rows > 0) {
             <ul class="nav-links">
                 <li><a href="shop.php">Home</a></li>
                 <li><a href="productsList.php">Produtos</a></li>
+
                 <?php if (!empty($_SESSION['user_id'])): ?>
                     <li><a href="cart.php">Meu Carrinho</a></li>
                 <?php endif; ?>
+                
                 <li><a href="#contato">Contato</a></li>
             </ul>
 
@@ -105,16 +107,16 @@ if ($categories->num_rows > 0) {
 
                 <!-- Slide Imagens -->
                 <div class="slide-img">
-                    <img src="../images/slide_padrao.png" alt="imagem 1">
+                    <img src="../images/carrossel1.png" alt="imagem 1">
                 </div>
                 <div class="slide-img">
-                    <img src="../images/slide_padrao.png" alt="imagem 2">
+                    <img src="../images/carrossel2.png" alt="imagem 2">
                 </div>
                 <div class="slide-img">
-                    <img src="../images/slide_padrao.png" alt="imagem 3">
+                    <img src="../images/carrossel3.png" alt="imagem 3">
                 </div>
                 <div class="slide-img">
-                    <img src="../images/slide_padrao.png" alt="imagem 4">
+                    <img src="../images/carrossel4.png" alt="imagem 4">
                 </div>
 
                 <!-- NAVIGATION AUTO -->

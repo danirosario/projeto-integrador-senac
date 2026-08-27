@@ -5,7 +5,7 @@
 
 $server = "localhost";
 $user = "root";
-$pass = "123456";
+$pass = "";
 $db = "lojacriartdb";
 
 //CONEXÃO 
