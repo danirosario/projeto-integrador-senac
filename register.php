@@ -37,10 +37,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-                if(empty($cpf)) {
-                    $cpf = null; 
+                if (empty($cpf)) {
+                    $cpf = null;
                 } else {
                     $cpf = preg_replace('/\D/', '', $cpf);
+                    if (strlen($cpf) !== 11) {
+                        echo "<script>alert('CPF inválido.'); window.history.back();</script>";
+                        exit;
+                    }
                 }
 
                 $stmt = $conn->prepare("INSERT INTO user (name, email, passwordHash, phone, cpf, Role_idRole) VALUES (?, ?, ?, ?, ?, ?)");
@@ -50,7 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($stmt->execute()) {
                     echo "<script>alert('Cadastro realizado com sucesso!'); window.location.href='login.php';</script>";
                 } else {
-                    echo "<script>alert('Erro ao cadastrar: " . $stmt->error . "'); window.history.back();</script>";
+                    error_log($stmt->error);
+                    echo "<script>alert('Erro ao cadastrar. Tente novamente mais tarde.'); window.history.back();</script>";
                 }
                 $stmt->close();
             } else {

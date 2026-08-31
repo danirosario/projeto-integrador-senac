@@ -48,29 +48,29 @@ $lowStockProducts = $conn->query("SELECT idProduct, Name, Stock, MinStock FROM p
   <div class="main-container">
     <!-- SIDEBAR -->
 
-    <aside class="sidebar">
-      <div class="logo">
-        <img src="../images/logo.png" alt="Logo CriArty" />
-      </div>
+<aside class="sidebar">
+            <div class="logo">
+                <img src="../images/logo.png" alt="Logo CriArty" />
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
+                    <li><a href="products.php">Produtos</a></li>
+                    <li><a href="orders.php">Pedidos</a></li>
+                    <li><a href="stock.php">Estoque</a></li>
+                    <li><a href="reports.php">Relatórios</a></li>
+                </ul>
 
-      <nav class="sidebar-nav">
-        <ul>
-          <li><a href="dashboard.php" class="active">Dashboard</a></li>
-          <li><a href="products.php">Produtos</a></li>
-          <li><a href="orders.php">Pedidos</a></li>
-          <li><a href="stock.php">Estoque</a></li>
-          <li><a href="reports.php">Relatórios</a></li>
-        </ul>
-      </nav>
+                <div class="perfil">
+                    <?php if (!empty($_SESSION['user_id'])): ?>
+                        <a href="../logout.php">Logout</a>
+                    <?php else: ?>
+                        <a href="../login.php">Login</a>
+                    <?php endif; ?>
+                </div>
 
-      <div class="perfil">
-        <?php if (!empty($_SESSION['user_id'])): ?>
-          <a href="../logout.php">Logout</a>
-        <?php else: ?>
-          <a href="../login.php">Login</a>
-        <?php endif; ?>
-      </div>
-    </aside>
+            </nav>
+        </aside>
 
     <!-- CONTENT AREA -->
     <div class="content-area">
