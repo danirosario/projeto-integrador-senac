@@ -104,8 +104,8 @@ $products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
             </div>
             <nav>
                 <ul>
-                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
-                    <li><a href="products.php">Produtos</a></li>
+                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="products.php" class="active">Produtos</a></li>
                     <li><a href="orders.php">Pedidos</a></li>
                     <li><a href="stock.php">Estoque</a></li>
                     <li><a href="reports.php">Relatórios</a></li>

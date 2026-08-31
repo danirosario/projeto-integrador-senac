@@ -132,10 +132,10 @@ $transactionHistory = $conn->query("SELECT p.Name, s.reason, s.quantityChange, s
             </div>
             <nav>
                 <ul>
-                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
+                    <li><a href="dashboard.php">Dashboard</a></li>
                     <li><a href="products.php">Produtos</a></li>
                     <li><a href="orders.php">Pedidos</a></li>
-                    <li><a href="stock.php">Estoque</a></li>
+                    <li><a href="stock.php" class="active">Estoque</a></li>
                     <li><a href="reports.php">Relatórios</a></li>
                 </ul>
 

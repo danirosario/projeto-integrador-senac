@@ -47,11 +47,11 @@ $sixMonthsRevenue = $conn->query("SELECT DATE_FORMAT(OrderDate, '%Y-%m') AS Mont
             </div>
             <nav>
                 <ul>
-                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
+                    <li><a href="dashboard.php">Dashboard</a></li>
                     <li><a href="products.php">Produtos</a></li>
                     <li><a href="orders.php">Pedidos</a></li>
                     <li><a href="stock.php">Estoque</a></li>
-                    <li><a href="reports.php">Relatórios</a></li>
+                    <li><a href="reports.php" class="active">Relatórios</a></li>
                 </ul>
 
                 <div class="perfil">
