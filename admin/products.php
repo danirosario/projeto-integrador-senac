@@ -1,25 +1,26 @@
 <?php
 require_once('../config.php');
+require_once("auth_check.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] === 'add_product') {
-        $name        = trim($_POST['product-name'] ?? '');
-        $categoryId  = (int) ($_POST['category'] ?? 0);
+        $name = trim($_POST['product-name'] ?? '');
+        $categoryId = (int) ($_POST['category'] ?? 0);
         $description = trim($_POST['description'] ?? '');
-        $price       = (float) ($_POST['price'] ?? 0);
-        $stock       = (int) ($_POST['stock'] ?? 0);
-        $minStock    = (int) ($_POST['minStock'] ?? 0);
+        $price = (float) ($_POST['price'] ?? 0);
+        $stock = (int) ($_POST['stock'] ?? 0);
+        $minStock = (int) ($_POST['minStock'] ?? 0);
 
         $imageUrl = '';
 
         if (isset($_FILES['image-url']) && $_FILES['image-url']['error'] === UPLOAD_ERR_OK) {
-            $fileTmpPath       = $_FILES['image-url']['tmp_name'];
-            $fileName          = $_FILES['image-url']['name'];
-            $fileExtension     = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+            $fileTmpPath = $_FILES['image-url']['tmp_name'];
+            $fileName = $_FILES['image-url']['name'];
+            $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
             $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
 
             if (in_array($fileExtension, $allowedExtensions)) {
-                $newFileName   = md5(time() . $fileName) . '.' . $fileExtension;
+                $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
                 $uploadFileDir = '../images/';
 
                 if (!is_dir($uploadFileDir)) {
@@ -103,12 +104,21 @@ $products = $conn->query("SELECT p.idProduct, p.Name, p.BasePrice, p.Stock, p.De
             </div>
             <nav>
                 <ul>
-                    <li><a href="dashboard.php">Dashboard</a></li>
-                    <li><a href="products.php" class="active">Produtos</a></li>
+                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
+                    <li><a href="products.php">Produtos</a></li>
                     <li><a href="orders.php">Pedidos</a></li>
                     <li><a href="stock.php">Estoque</a></li>
                     <li><a href="reports.php">Relatórios</a></li>
                 </ul>
+
+                <div class="perfil">
+                    <?php if (!empty($_SESSION['user_id'])): ?>
+                        <a href="../logout.php">Logout</a>
+                    <?php else: ?>
+                        <a href="../login.php">Login</a>
+                    <?php endif; ?>
+                </div>
+
             </nav>
         </aside>
         <div class="content-area">

@@ -1,43 +1,43 @@
-<?php 
-require_once('config.php'); 
+<?php
+require_once('config.php');
 
-$erro = ""; 
+$erro = "";
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email']) && isset($_POST['password'])) { 
-    
-    $email = trim($_POST['email']); 
-    $password = $_POST['password']; 
-    
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email']) && isset($_POST['password'])) {
+
+    $email = trim($_POST['email']);
+    $password = $_POST['password'];
+
     $sql = "SELECT u.idUser, u.passwordHash, r.name AS role_name 
             FROM user u 
             INNER JOIN role r ON u.Role_idRole = r.idRole 
             WHERE u.email = ?";
-            
-    $stmt = $conn->prepare($sql); 
-    $stmt->bind_param("s", $email); 
-    $stmt->execute(); 
-    $result = $stmt->get_result(); 
-    
-    if ($result->num_rows > 0) { 
-        $row = $result->fetch_assoc(); 
-        $hashed_password_from_db = $row['passwordHash']; 
-        
-        if (password_verify($password, $hashed_password_from_db)) { 
-            
-            $_SESSION['user_id'] = $row['idUser']; 
-            $_SESSION['user_role'] = $row['role_name']; 
-            
-            if ($row['role_name'] === 'admin') { 
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $hashed_password_from_db = $row['passwordHash'];
+
+        if (password_verify($password, $hashed_password_from_db)) {
+
+            $_SESSION['user_id'] = $row['idUser'];
+            $_SESSION['user_role'] = strtolower(trim($row['role_name']));
+
+            if ($_SESSION['user_role'] === 'admin') {
                 header("Location: admin/dashboard.php");
             } else {
                 header("Location: client/shop.php");
             }
-            exit(); 
-        } 
-    } 
-    
-    $erro = "E-mail ou senha inválidos."; 
-    $stmt->close(); 
+            exit();
+        }
+    }
+
+    $erro = "E-mail ou senha inválidos.";
+    $stmt->close();
 }
 ?>
 
@@ -59,9 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email']) && isset($_PO
         <div class="left-side">
             <div class="brand">
                 <img src="images/logo.png" alt="Logo CriArty" class="logo">
-
                 <h1>CriArty</h1>
-
                 <p>
                     Bem vindo de volta!<br> Por favor, faça login para continuar.
                 </p>
@@ -70,12 +68,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email']) && isset($_PO
 
         <!-- Lado direito -->
         <div class="right-side">
-
             <div class="login-container">
 
                 <h2>Login</h2>
 
-                <form action="#" method="post">
+                <form action="" method="post">
+
+                    <?php if (!empty($erro)): ?>
+                        <p style="color: red; margin-bottom: 15px;"><?php echo $erro; ?></p>
+                    <?php endif; ?>
 
                     <div class="input-group">
                         <label>Email</label>
@@ -94,12 +95,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email']) && isset($_PO
                 </form>
 
                 <p class="footer-text">
-                    Não tem uma conta?
-                    <a href="register.php">Cadastre-se</a>
+                    Não tem uma conta? <a href="register.php">Cadastre-se</a>
                 </p>
 
+                 <div class="footer-text">
+                    <a href="client/shop.php">Ir para o site</a>
+                </div>
             </div>
-
         </div>
 
     </section>

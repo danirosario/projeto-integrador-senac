@@ -1,5 +1,6 @@
 <?php
 require_once('../config.php');
+require_once("auth_check.php");
 
 // Total de pedidos do mês
 $result = $conn->query("SELECT COUNT(*) AS total FROM `order` 
@@ -46,12 +47,21 @@ $sixMonthsRevenue = $conn->query("SELECT DATE_FORMAT(OrderDate, '%Y-%m') AS Mont
             </div>
             <nav>
                 <ul>
-                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
                     <li><a href="products.php">Produtos</a></li>
                     <li><a href="orders.php">Pedidos</a></li>
                     <li><a href="stock.php">Estoque</a></li>
-                    <li><a href="reports.php" class="active">Relatórios</a></li>
+                    <li><a href="reports.php">Relatórios</a></li>
                 </ul>
+
+                <div class="perfil">
+                    <?php if (!empty($_SESSION['user_id'])): ?>
+                        <a href="../logout.php">Logout</a>
+                    <?php else: ?>
+                        <a href="../login.php">Login</a>
+                    <?php endif; ?>
+                </div>
+
             </nav>
         </aside>
 

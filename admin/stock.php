@@ -3,6 +3,7 @@
 // session_start();
 
 require_once("../config.php");
+require_once("auth_check.php");
 
 // Recupera ID do produto e ação vindos via URL (GET)
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -131,12 +132,21 @@ $transactionHistory = $conn->query("SELECT p.Name, s.reason, s.quantityChange, s
             </div>
             <nav>
                 <ul>
-                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
                     <li><a href="products.php">Produtos</a></li>
                     <li><a href="orders.php">Pedidos</a></li>
-                    <li><a href="stock.php" class="active">Estoque</a></li>
+                    <li><a href="stock.php">Estoque</a></li>
                     <li><a href="reports.php">Relatórios</a></li>
                 </ul>
+
+                <div class="perfil">
+                    <?php if (!empty($_SESSION['user_id'])): ?>
+                        <a href="../logout.php">Logout</a>
+                    <?php else: ?>
+                        <a href="../login.php">Login</a>
+                    <?php endif; ?>
+                </div>
+
             </nav>
         </aside>
 

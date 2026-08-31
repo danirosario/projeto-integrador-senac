@@ -1,5 +1,6 @@
 <?php
 require_once("../config.php");
+require_once("auth_check.php");
 
 // Total de produtos ativos
 $result = $conn->query("SELECT COUNT(*) AS total FROM product WHERE isActive = 1");
@@ -24,7 +25,7 @@ $recentOrders = $conn->query("SELECT o.idOrder, o.OrderDate, o.TotalAmount, o.St
     INNER JOIN customer c ON c.idCustomer = o.Customer_idCustomer
     ORDER BY o.OrderDate DESC
     LIMIT 5
-"); 
+");
 
 // Produtos com estoque baixo, os 5 produtos com menor quantidade em estoque, considerando apenas produtos ativos
 $lowStockProducts = $conn->query("SELECT idProduct, Name, Stock, MinStock FROM product
@@ -51,7 +52,8 @@ $lowStockProducts = $conn->query("SELECT idProduct, Name, Stock, MinStock FROM p
       <div class="logo">
         <img src="../images/logo.png" alt="Logo CriArty" />
       </div>
-      <nav>
+
+      <nav class="sidebar-nav">
         <ul>
           <li><a href="dashboard.php" class="active">Dashboard</a></li>
           <li><a href="products.php">Produtos</a></li>
@@ -60,6 +62,14 @@ $lowStockProducts = $conn->query("SELECT idProduct, Name, Stock, MinStock FROM p
           <li><a href="reports.php">Relatórios</a></li>
         </ul>
       </nav>
+
+      <div class="perfil">
+        <?php if (!empty($_SESSION['user_id'])): ?>
+          <a href="../logout.php">Logout</a>
+        <?php else: ?>
+          <a href="../login.php">Login</a>
+        <?php endif; ?>
+      </div>
     </aside>
 
     <!-- CONTENT AREA -->

@@ -1,5 +1,6 @@
-<?php 
+<?php
 require_once("../config.php");
+require_once("auth_check.php");
 
 // Total de pedidos
 $result = $conn->query("SELECT COUNT(*) AS total FROM `order`");
@@ -45,12 +46,21 @@ $orders = $conn->query("SELECT o.idOrder, o.OrderDate, o.Status, o.PaymentStatus
 
             <nav>
                 <ul>
-                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
                     <li><a href="products.php">Produtos</a></li>
-                    <li><a href="orders.php" class="active">Pedidos</a></li>
+                    <li><a href="orders.php">Pedidos</a></li>
                     <li><a href="stock.php">Estoque</a></li>
                     <li><a href="reports.php">Relatórios</a></li>
                 </ul>
+
+                <div class="perfil">
+                    <?php if (!empty($_SESSION['user_id'])): ?>
+                        <a href="../logout.php">Logout</a>
+                    <?php else: ?>
+                        <a href="../login.php">Login</a>
+                    <?php endif; ?>
+                </div>
+
             </nav>
         </aside>
 
@@ -76,28 +86,28 @@ $orders = $conn->query("SELECT o.idOrder, o.OrderDate, o.Status, o.PaymentStatus
                     </div>
 
                     <ul>
-                        <?php 
+                        <?php
                         // Verifica se a consulta retornou alguma linha do banco de dados
                         if ($orders && $orders->num_rows > 0):
 
-                            while($order = $orders->fetch_assoc()): 
-                        ?>
-                            <li class="order-item">
-                                <span>#  <?php echo $order["idOrder"]; ?>                                 </span>
-                                <span>   <?php echo htmlspecialchars($order["CustomerName"]); ?>          </span>
-                                <span>R$ <?php echo number_format($order["TotalAmount"], 2, ',', '.'); ?> </span> 
-                                <span>   <?php echo htmlspecialchars($order["Status"]); ?>                </span>
-                                <span>   <?php echo htmlspecialchars($order["PaymentStatus"]); ?>         </span>
-                                <span>   <?php echo date('d/m/Y H:i', strtotime($order["OrderDate"])); ?> </span>
-                            </li>
-                        <?php 
+                            while ($order = $orders->fetch_assoc()):
+                                ?>
+                                <li class="order-item">
+                                    <span># <?php echo $order["idOrder"]; ?> </span>
+                                    <span> <?php echo htmlspecialchars($order["CustomerName"]); ?> </span>
+                                    <span>R$ <?php echo number_format($order["TotalAmount"], 2, ',', '.'); ?> </span>
+                                    <span> <?php echo htmlspecialchars($order["Status"]); ?> </span>
+                                    <span> <?php echo htmlspecialchars($order["PaymentStatus"]); ?> </span>
+                                    <span> <?php echo date('d/m/Y H:i', strtotime($order["OrderDate"])); ?> </span>
+                                </li>
+                            <?php
                             endwhile;
-                        else: 
-                        ?>
+                        else:
+                            ?>
                             <li class="order-item">
                                 <span>Nenhum pedido encontrado.</span>
                             </li>
-                        <?php 
+                        <?php
                         endif;
                         ?>
                     </ul>

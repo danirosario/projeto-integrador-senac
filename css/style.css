@@ -40,6 +40,23 @@ body {
     color: var(--text-light);
     padding: 30px 20px;
     box-shadow: 2px 0 10px rgba(28, 58, 90, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.sidebar .perfil {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); 
 }
 
 .sidebar .logo h2 {
