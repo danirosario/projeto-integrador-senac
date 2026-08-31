@@ -78,7 +78,6 @@ $orders = $conn->query("SELECT o.idOrder, o.OrderDate, o.Status, o.PaymentStatus
                     <div class="orders-info">
                         <span>Pedido</span>
                         <span>Cliente</span>
-                        <span>Itens</span>
                         <span>Total</span>
                         <span>Status</span>
                         <span>Pagamento</span>
