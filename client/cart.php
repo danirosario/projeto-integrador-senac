@@ -100,11 +100,11 @@ if (!empty($_SESSION['cart'])) {
                         <strong>Total: R$ <?php echo number_format($total_price, 2, ',', '.'); ?></strong> 
                     </div> 
                     <button class="finalize-order">Finalizar Compra</button> 
-                    <div class="clear-cart-box"> 
-                        <a href="clear_cart.php" onclick="return confirm('Tem certeza que deseja esvaziar o carrinho?');" class="clear-cart-link"> 
+                    <!-- <div class="clear-cart-box"> 
+                       <a href="clear_cart.php" onclick="return confirm('Tem certeza que deseja esvaziar o carrinho?');" class="clear-cart-link"> 
                             Esvaziar Carrinho 
                         </a> 
-                    </div> 
+                    </div>  -->
                 </div> 
             <?php else: ?> 
                 <div class="empty-cart-box"> 
